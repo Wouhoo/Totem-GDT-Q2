@@ -18,13 +18,11 @@ public class PlayerFuel : MonoBehaviour
     private bool atPoint; // true if a player is at a pickup/delivery point *but has not yet done the thing there* (because they're going too fast)
 
     private Rigidbody playerRb;
-    private GameManager gameManager;
     [SerializeField] TextMeshProUGUI fuelText;
 
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
-        gameManager = GameObject.FindObjectOfType<GameManager>();
     }
 
     public void SetFuel(float fuel)
@@ -53,9 +51,17 @@ public class PlayerFuel : MonoBehaviour
         if (atPoint && playerRb.velocity.magnitude < maxSpeedForDelivery)
         {
             if (other.tag == "Pickup Point")
+            {
                 PickupFuel();
+            }
             else if (other.tag == "Delivery Point")
-                DeliverFuel(30f, 10);
+            {
+                DeliveryPoint deliveryPointScript = other.GetComponent<DeliveryPoint>();
+                if (deliveryPointScript.questActive) // Only deliver if delivery point actually has an active quest
+                {
+                    DeliverFuel(deliveryPointScript);
+                }
+            }
             atPoint = false;
         }
     }
@@ -72,14 +78,14 @@ public class PlayerFuel : MonoBehaviour
         Debug.Log("Picked up fuel!");
     }
 
-    void DeliverFuel(float fuelToDeliver, int pointsToGive)
+    void DeliverFuel(DeliveryPoint deliveryPoint)
     {
-        // TODO
-        // For now (for testing purposes) this just always removes 30 fuel and adds 10 points
+        float fuelToDeliver = deliveryPoint.quest.fuelToDeliver;
+
         if(fuelLevel > fuelToDeliver)
         {
             AddFuel(-fuelToDeliver);
-            gameManager.UpdateScore(pointsToGive);
+            deliveryPoint.CompleteQuest();
             Debug.Log("Succesfully delivered fuel!");
         }
         else
