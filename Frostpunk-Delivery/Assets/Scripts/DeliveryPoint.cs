@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DeliveryPoint : MonoBehaviour
@@ -8,15 +9,18 @@ public class DeliveryPoint : MonoBehaviour
     public bool questActive = false;
     public Quest quest;
 
-    private GameManager gameManager;
+    GameManager gameManager;
+    TextMeshProUGUI deliveryText;
 
     Material pointMaterial;
     Color inactiveColor = new Color(0.7f, 0.7f, 0.7f); // gray
     Color activeColor = new Color(1.0f, 0.6f, 0.0f);   // orange
 
-    private void Start()
+    private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
+        deliveryText = GetComponentInChildren<TextMeshProUGUI>(); // has to be found before the text is parented to the canvas, hence Awake() instead of Start()
+        deliveryText.gameObject.SetActive(false);
         pointMaterial = GetComponent<Renderer>().material;
         pointMaterial.color = inactiveColor;
     }
@@ -28,6 +32,8 @@ public class DeliveryPoint : MonoBehaviour
         questActive = true;
         Invoke("FailQuest", quest.timeLimit); // Start counting down towards quest failure
         pointMaterial.color = activeColor;
+        deliveryText.gameObject.SetActive(true);
+        deliveryText.text = string.Format("{0}", quest.fuelToDeliver); // Displays only fuel to deliver for now; might display more/other info later.
     }
 
     public void CompleteQuest()
@@ -37,6 +43,7 @@ public class DeliveryPoint : MonoBehaviour
         gameManager.UpdateScore(quest.pointReward);
         quest = null;
         questActive = false;
+        deliveryText.gameObject.SetActive(false);
         pointMaterial.color = inactiveColor;
     }
 
@@ -46,6 +53,7 @@ public class DeliveryPoint : MonoBehaviour
         gameManager.GameOver(); // For now, failing a quest will be an instant game over
         quest = null;
         questActive = false;
+        deliveryText.gameObject.SetActive(false);
         pointMaterial.color = inactiveColor;
     }
 }
