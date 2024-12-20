@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pickup Point
   - Delivery Point
+  - Upgrade Point
   layers:
   - Default
   - TransparentFX

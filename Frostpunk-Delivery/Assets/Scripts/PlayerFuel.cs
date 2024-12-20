@@ -18,11 +18,14 @@ public class PlayerFuel : MonoBehaviour
     private bool atPoint; // true if a player is at a pickup/delivery point *but has not yet done the thing there* (because they're going too fast)
 
     private Rigidbody playerRb;
+    private UpgradeManager upgradeManager;
+
     [SerializeField] TextMeshProUGUI fuelText;
 
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        upgradeManager = FindObjectOfType<UpgradeManager>();
     }
 
     public void SetFuel(float fuel)
@@ -30,13 +33,24 @@ public class PlayerFuel : MonoBehaviour
         // Set fuel level and update fuel text (and later, hopefully, also update fuel meters on the UI and/or the vehicle itself)
         if(fuel > maxFuelLevel) { fuel = maxFuelLevel; }
         fuelLevel = fuel;
-        fuelText.text = string.Format("Fuel: {0:#.0}", fuelLevel);
+        UpdateFuelText();
     }
 
     public void AddFuel(float fuelToAdd)
     {
         // Instead of setting the fuel level, you can also add/remove by calling this function
         SetFuel(fuelLevel + fuelToAdd);
+    }
+
+    public void SetCapacity(float capacity)
+    {
+        maxFuelLevel = capacity;
+        UpdateFuelText();
+    }
+
+    private void UpdateFuelText()
+    {
+        fuelText.text = string.Format("Fuel: {0:#.0} / {1:#.0}", fuelLevel, maxFuelLevel);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,6 +75,11 @@ public class PlayerFuel : MonoBehaviour
                 {
                     DeliverFuel(deliveryPointScript);
                 }
+            }
+            else if (other.tag == "Upgrade Point")
+            {
+                upgradeManager.OpenUpgradeMenu();
+                playerRb.velocity = new Vector3 (0, 0, 0); // Reset player's velocity if they go into the shop to upgrade
             }
             atPoint = false;
         }
