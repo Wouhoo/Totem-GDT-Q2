@@ -17,6 +17,8 @@ public class UpgradeManager : MonoBehaviour
     private int[] costAtLevel = new int[] { 10, 25, 45, 70, 100 };                 // Cost of upgrading to the next level
     [SerializeField] Image fuelUpgradeMeter;
     [SerializeField] TextMeshProUGUI fuelUpgradeButtonText;
+    [SerializeField] AudioSource upgradeSound;
+    [SerializeField] AudioSource shopLeaveSound;
 
     private void Start()
     {
@@ -33,17 +35,19 @@ public class UpgradeManager : MonoBehaviour
         Time.timeScale = 0; // Freeze time while in upgrade menu
     }
 
-    public void CloseUpgradeMenu() 
-    { 
+    public void CloseUpgradeMenu()
+    {
         upgradeMenu.SetActive(false);
         Time.timeScale = 1; // Resume simulation at normal speed
+        if (shopLeaveSound != null)
+            shopLeaveSound.Play();
     }
 
     public void UpgradeFuelCapacity()
     {
         if (fuelCapacityLevel < capacityAtLevel.Length)
         {
-            if(gameManager.playerScore >= costAtLevel[fuelCapacityLevel])
+            if (gameManager.playerScore >= costAtLevel[fuelCapacityLevel])
             {
                 gameManager.UpdateScore(-costAtLevel[fuelCapacityLevel]);
                 playerFuelScript.SetCapacity(capacityAtLevel[fuelCapacityLevel]);
@@ -53,6 +57,10 @@ public class UpgradeManager : MonoBehaviour
                     fuelUpgradeButtonText.text = string.Format("Upgrade (${0})", costAtLevel[fuelCapacityLevel]);
                 else
                     fuelUpgradeButtonText.text = "MAX LEVEL REACHED";
+                if (upgradeSound != null)
+                {
+                    upgradeSound.Play();
+                }
             }
             else
             {

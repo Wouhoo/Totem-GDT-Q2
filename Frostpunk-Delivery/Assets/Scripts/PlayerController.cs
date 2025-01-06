@@ -5,13 +5,9 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
-    // Very basic movement for now, since I needed to be able to move in order to start testing the pickup/delivery system
-    // @Tim: please rework this with an actually good controller :) and also make sure the camera follows the player
-
     private float moveSpeed = 15f;
     private float turnSpeed = 90f;
-    private float fuelConsumption = 0.5f; // Rate of fuel consumption (currently has no physical meaning, tweak it until it feels good)
-                                          // Currently dependent only on player speed; should somehow be dependent on acceleration as well (idk how cars work tho)
+    private float fuelConsumption = 0.5f;
 
     private float horizontalInput;
     private float verticalInput;
@@ -19,10 +15,14 @@ public class PlayerController : MonoBehaviour
     private PlayerFuel playerFuel;
     [SerializeField] TextMeshProUGUI speedText;
 
+    [SerializeField] AudioSource engineAudio;
+
     private void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         playerFuel = GetComponent<PlayerFuel>();
+        engineAudio.loop = true;
+        engineAudio.Play(); // Looping basic engine sound, will change it to a more complex AND make it differ between levels
     }
 
     void FixedUpdate()
@@ -36,5 +36,17 @@ public class PlayerController : MonoBehaviour
         speedText.text = string.Format("Speed: {0:#.00}", playerRb.velocity.magnitude);
 
         playerFuel.AddFuel(-fuelConsumption * Time.deltaTime * playerRb.velocity.magnitude);
+
+        UpdateEngineSound(playerRb.velocity.magnitude);
+    }
+
+    private void UpdateEngineSound(float speed)
+    {
+        float maxSpeed = moveSpeed;
+        float pitch = Mathf.Lerp(0.5f, 2.0f, speed / maxSpeed);
+        float volume = Mathf.Lerp(0.1f, 1.0f, speed / maxSpeed);
+
+        engineAudio.pitch = pitch;
+        engineAudio.volume = volume;
     }
 }

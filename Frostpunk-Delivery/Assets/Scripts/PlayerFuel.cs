@@ -66,19 +66,25 @@ public class PlayerFuel : MonoBehaviour
         {
             if (other.tag == "Pickup Point")
             {
-                PickupFuel();
+                PickupFuel(other.GetComponent<AudioSource>());
             }
             else if (other.tag == "Delivery Point")
             {
                 DeliveryPoint deliveryPointScript = other.GetComponent<DeliveryPoint>();
                 if (deliveryPointScript.questActive) // Only deliver if delivery point actually has an active quest
                 {
-                    DeliverFuel(deliveryPointScript);
+                    AudioSource[] deliveryAudios = other.GetComponents<AudioSource>();
+                    DeliverFuel(deliveryPointScript, deliveryAudios);
                 }
             }
             else if (other.tag == "Upgrade Point")
             {
                 upgradeManager.OpenUpgradeMenu();
+                AudioSource shopArrivalAudio = other.GetComponent<AudioSource>();
+                if (shopArrivalAudio != null)
+                {
+                    shopArrivalAudio.Play(); // Play the garage door opening sound
+                }
                 playerRb.velocity = new Vector3 (0, 0, 0); // Reset player's velocity if they go into the shop to upgrade
             }
             atPoint = false;
@@ -89,15 +95,18 @@ public class PlayerFuel : MonoBehaviour
     {
         atPoint = false;
     }
-
-    void PickupFuel()
+    void PickupFuel(AudioSource pickupAudio)
     {
         // At least for now, picking up fuel at a pickup point completely fills your fuel level to the max
         SetFuel(maxFuelLevel);
         Debug.Log("Picked up fuel!");
+        if (pickupAudio != null) 
+        {
+            pickupAudio.Play(); // Fuel sound plays, will switch this from oil to wood or coal
+        }
     }
 
-    void DeliverFuel(DeliveryPoint deliveryPoint)
+    void DeliverFuel(DeliveryPoint deliveryPoint, AudioSource[] deliveryAudios)
     {
         float fuelToDeliver = deliveryPoint.quest.fuelToDeliver;
 
@@ -106,6 +115,11 @@ public class PlayerFuel : MonoBehaviour
             AddFuel(-fuelToDeliver);
             deliveryPoint.CompleteQuest();
             Debug.Log("Succesfully delivered fuel!");
+            if (deliveryAudios != null)
+            {
+                int randomIndex = Random.Range(0, deliveryAudios.Length);
+                deliveryAudios[randomIndex].Play(); // Plays a random "thank you" line, will add more lines later
+            }
         }
         else
         {
