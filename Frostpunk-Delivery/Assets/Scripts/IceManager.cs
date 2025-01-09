@@ -5,7 +5,7 @@ using UnityEngine;
 public class IceManager : MonoBehaviour
 {
     public float iceFrictionCoef = 0.3f; // land friction is 0.8
-    public PlayerController playerController;
+    public CarController carController;
 
     public float iceAreaCounter = 0f;
 
@@ -21,14 +21,15 @@ public class IceManager : MonoBehaviour
         if (isInside)
         {
             if (iceAreaCounter == 0)
-                playerController.SetFriction(iceFrictionCoef);
+                carController.SetFriction(iceFrictionCoef);
+            Debug.Log("Changed");
             iceAreaCounter += 1;
         }
         else
         {
             iceAreaCounter -= 1;
             if (iceAreaCounter == 0)
-                playerController.ResetFriction();
+                carController.ResetFriction();
         }
     }
 }

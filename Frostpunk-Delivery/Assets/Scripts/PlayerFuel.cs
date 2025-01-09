@@ -31,7 +31,7 @@ public class PlayerFuel : MonoBehaviour
     public void SetFuel(float fuel)
     {
         // Set fuel level and update fuel text (and later, hopefully, also update fuel meters on the UI and/or the vehicle itself)
-        if(fuel > maxFuelLevel) { fuel = maxFuelLevel; }
+        if (fuel > maxFuelLevel) { fuel = maxFuelLevel; }
         fuelLevel = fuel;
         UpdateFuelText();
     }
@@ -79,7 +79,7 @@ public class PlayerFuel : MonoBehaviour
             else if (other.tag == "Upgrade Point")
             {
                 upgradeManager.OpenUpgradeMenu();
-                playerRb.velocity = new Vector3 (0, 0, 0); // Reset player's velocity if they go into the shop to upgrade
+                playerRb.velocity = new Vector3(0, 0, 0); // Reset player's velocity if they go into the shop to upgrade
             }
             atPoint = false;
         }
@@ -101,7 +101,7 @@ public class PlayerFuel : MonoBehaviour
     {
         float fuelToDeliver = deliveryPoint.quest.fuelToDeliver;
 
-        if(fuelLevel > fuelToDeliver)
+        if (fuelLevel > fuelToDeliver)
         {
             AddFuel(-fuelToDeliver);
             deliveryPoint.CompleteQuest();
@@ -111,5 +111,11 @@ public class PlayerFuel : MonoBehaviour
         {
             Debug.Log("Not enough fuel to deliver!");
         }
+    }
+
+    public float GetFuelLevel()
+    {
+        // tells us how much fuel we have (for other scripts to use)
+        return fuelLevel;
     }
 }
