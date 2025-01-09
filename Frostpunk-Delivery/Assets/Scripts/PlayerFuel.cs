@@ -26,6 +26,7 @@ public class PlayerFuel : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         upgradeManager = FindObjectOfType<UpgradeManager>();
+        fuelLevel = maxFuelLevel;  // Start with a full tank of fuel
     }
 
     public void SetFuel(float fuel)
@@ -34,6 +35,12 @@ public class PlayerFuel : MonoBehaviour
         if (fuel > maxFuelLevel) { fuel = maxFuelLevel; }
         fuelLevel = fuel;
         UpdateFuelText();
+    }
+
+    public float GetFuelLevel()
+    {
+        // tells us how much fuel we have (for other scripts to use if necessary)
+        return fuelLevel;
     }
 
     public void AddFuel(float fuelToAdd)
@@ -111,11 +118,5 @@ public class PlayerFuel : MonoBehaviour
         {
             Debug.Log("Not enough fuel to deliver!");
         }
-    }
-
-    public float GetFuelLevel()
-    {
-        // tells us how much fuel we have (for other scripts to use)
-        return fuelLevel;
     }
 }

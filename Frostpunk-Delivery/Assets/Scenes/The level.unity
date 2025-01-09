@@ -1271,7 +1271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75191a408d194e64b88104396529c940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iceFrictionCoef: 0.15
+  iceFrictionCoef: 0.3
   carController: {fileID: 629240357}
   iceAreaCounter: 0
 --- !u!1 &589265038
@@ -5650,6 +5650,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3210725772709089659, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: m_Mass
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3210725772709089659, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 3247736012922602978, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       propertyPath: fuelText
       value: 
@@ -5699,9 +5707,53 @@ PrefabInstance:
       value: Car
       objectReference: {fileID: 0}
     - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: maxSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       propertyPath: speedText
       value: 
       objectReference: {fileID: 1135717441}
+    - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: brakeTorque
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: motorTorque
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: fuelEfficiency
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: landFrictionCoef
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: forwardExtremumValue
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: sidewaysExtremumSlip
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: forwardAsymptoteValue
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: sidewaysAsymptoteSlip
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: sidewaysExtremumValue
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: sidewaysAsymptoteValue
+      value: 0.8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -68,7 +68,7 @@ public class DeliveryPoint : MonoBehaviour
 
     void FailQuest()
     {
-        // Fail quest if fuel is not delivered within time limit (invoked in AssignQuest and canceled in CompleteQuest)
+        // Fail quest if fuel is not delivered within time limit (called from Update() if remaining time is < 0)
         gameManager.GameOver(); // For now, failing a quest will be an instant game over
         quest = null;
         questActive = false;

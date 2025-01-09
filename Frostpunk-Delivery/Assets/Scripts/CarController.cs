@@ -21,16 +21,26 @@ public class CarController : MonoBehaviour
     public float steeringRange = 30;
     public float steeringRangeAtMaxSpeed = 10;
     public float centreOfGravityOffset = -1f;
+    public float fuelEfficiency = 4000f;     // Amount of motor toruqe of 1 wheel for 1 second   needed 1 unit of fuel (ie. fuelEfficiency = - tor * dt / dF )
 
-    public float fuelEfficiency = 0.5f;     // Amount of motor toruqe of 1 wheel for 1 second   needed 1 unit of fuel (ie. fuelEfficiency = - tor * dt / dF )
-    private PlayerFuel playerFuel;
-
-
-    WheelController[] wheels;
-    private Rigidbody rigidBody;
+    [Header("Wheel friction curve modifiers")]
+    [SerializeField] float forwardExtremumSlip = 0.4f;
+    [SerializeField] float forwardExtremumValue = 1.0f;
+    [SerializeField] float forwardAsymptoteSlip = 0.8f;
+    [SerializeField] float forwardAsymptoteValue = 0.5f;
+    [SerializeField] float forwardStiffness = 1.0f;
+    [SerializeField] float sidewaysExtremumSlip = 0.2f;
+    [SerializeField] float sidewaysExtremumValue = 1.0f;
+    [SerializeField] float sidewaysAsymptoteSlip = 0.5f;
+    [SerializeField] float sidewaysAsymptoteValue = 0.75f;
+    [SerializeField] float sidewaysStiffness = 1.0f;
 
     [Header("Other")]
     public float landFrictionCoef = 1f;
+
+    private PlayerFuel playerFuel;
+    WheelController[] wheels;
+    private Rigidbody rigidBody;
 
     private void Start()
     {
@@ -103,18 +113,18 @@ public class CarController : MonoBehaviour
         Debug.Log(frictionCoef);
 
         WheelFrictionCurve wheelFrictionCurve_forward = new WheelFrictionCurve();
-        wheelFrictionCurve_forward.extremumSlip = frictionCoef * 0.4f;
-        wheelFrictionCurve_forward.extremumValue = frictionCoef * 1f;
-        wheelFrictionCurve_forward.asymptoteSlip = frictionCoef * 0.8f;
-        wheelFrictionCurve_forward.asymptoteValue = frictionCoef * 0.5f;
-        wheelFrictionCurve_forward.stiffness = 1f;
+        wheelFrictionCurve_forward.extremumSlip = frictionCoef * forwardExtremumSlip;
+        wheelFrictionCurve_forward.extremumValue = frictionCoef * forwardExtremumValue;
+        wheelFrictionCurve_forward.asymptoteSlip = frictionCoef * forwardAsymptoteSlip;
+        wheelFrictionCurve_forward.asymptoteValue = frictionCoef * forwardAsymptoteValue;
+        wheelFrictionCurve_forward.stiffness = forwardStiffness;
 
         WheelFrictionCurve wheelFrictionCurve_sideways = new WheelFrictionCurve();
-        wheelFrictionCurve_sideways.extremumSlip = frictionCoef * 0.2f;
-        wheelFrictionCurve_sideways.extremumValue = frictionCoef * 1f;
-        wheelFrictionCurve_sideways.asymptoteSlip = frictionCoef * 0.5f;
-        wheelFrictionCurve_sideways.asymptoteValue = frictionCoef * 0.75f;
-        wheelFrictionCurve_sideways.stiffness = 1f;
+        wheelFrictionCurve_sideways.extremumSlip = frictionCoef * sidewaysExtremumSlip;
+        wheelFrictionCurve_sideways.extremumValue = frictionCoef * sidewaysExtremumValue;
+        wheelFrictionCurve_sideways.asymptoteSlip = frictionCoef * sidewaysAsymptoteSlip;
+        wheelFrictionCurve_sideways.asymptoteValue = frictionCoef * sidewaysAsymptoteValue;
+        wheelFrictionCurve_sideways.stiffness = sidewaysStiffness;
 
         foreach (var wheel in wheels)
         {
