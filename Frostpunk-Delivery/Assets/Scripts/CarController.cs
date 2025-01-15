@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.Assertions.Must;
+using Unity.VisualScripting;
 
 
 
@@ -33,6 +34,7 @@ public class CarController : MonoBehaviour
     [SerializeField] float sidewaysAsymptoteSlip = 0.5f;
     [SerializeField] float sidewaysAsymptoteValue = 0.75f;
     [SerializeField] float baseWheelDampeningRate = 100f;
+    private float wheelDampeningRate; // Set to 0.25 when driving, else to the current rate
 
 
     [Header("Other")]
@@ -83,6 +85,9 @@ public class CarController : MonoBehaviour
 
         foreach (var wheel in wheels)
         {
+            // Adjust wheel dampening rate
+            wheel.WheelCollider.wheelDampingRate = Mathf.Lerp(wheelDampeningRate, 0.25f, Mathf.Abs(vInput));
+
             // Apply steering to Wheel colliders that have "Steerable" enabled
             if (wheel.steerable)
                 wheel.WheelCollider.steerAngle = hInput * currentSteerRange;
@@ -126,13 +131,12 @@ public class CarController : MonoBehaviour
         wheelFrictionCurve_sideways.asymptoteValue = sidewaysAsymptoteValue;
         wheelFrictionCurve_sideways.stiffness = frictionCoef;
 
-        float weelDampeningRate = baseWheelDampeningRate * frictionCoef;
+        wheelDampeningRate = baseWheelDampeningRate * frictionCoef;
 
         foreach (var wheel in wheels)
         {
             wheel.WheelCollider.forwardFriction = wheelFrictionCurve_forward;
             wheel.WheelCollider.sidewaysFriction = wheelFrictionCurve_sideways;
-            wheel.WheelCollider.wheelDampingRate = weelDampeningRate;
         }
     }
 
