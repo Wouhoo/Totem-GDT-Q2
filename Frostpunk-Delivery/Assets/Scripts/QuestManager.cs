@@ -7,13 +7,16 @@ public class QuestManager : MonoBehaviour
 {
     DeliveryPoint[] deliveryPoints;
 
-    float startDelay = 2.0f;  // time until first quest is started
-    float questDelay = 10.0f; // time between quest spawns
+    float startDelay = 3.0f;  // time until first quest is started
+    float questDelay = 15.0f; // time between quest spawns
 
     // Quests will ask for an amount of fuel between questMinFuel and questMaxFuel.
     // The amount of fuel determines the reward and time limit. 
     int questMinFuel = 10;
     int questMaxFuel = 20;
+    int questMinTime = 30;
+    int questMaxTime = 45;
+    float largeDeliveryModifier = 1f; // largeDeliveryModifier * fuelToDeliver will be added to quest time limit
 
     void Start()
     {
@@ -32,9 +35,10 @@ public class QuestManager : MonoBehaviour
         // Generate a new quest
         Quest quest = new Quest();
         float fuelToDeliver = Random.Range(questMinFuel, questMaxFuel);
+        float baseTimeLimit = Random.Range(questMinTime, questMaxTime);
         quest.fuelToDeliver = fuelToDeliver;
         quest.pointReward = (int)fuelToDeliver; // For now, point reward will be equal to fuel delivered
-        quest.timeLimit = 10f + 0.5f*fuelToDeliver; // For now, time limit for quest is 10 + 0.5*fuel to deliver (i.e. larger deliveries give you more time)
+        quest.timeLimit = baseTimeLimit + largeDeliveryModifier*fuelToDeliver; // Add extra time for larger deliveries
 
         // Assign the quest
         deliveryPoint.AssignQuest(quest);
