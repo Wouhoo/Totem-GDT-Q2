@@ -4,14 +4,47 @@ using UnityEngine;
 
 public class IceManager : MonoBehaviour
 {
+    // Script for spawning & managing ice areas
     public float iceFrictionCoef = 0.3f; // land friction is 0.8
     public CarController carController;
 
     public float iceAreaCounter = 0f;
 
+    [SerializeField] int areasToSpawn = 40;    // Amount of areas to spawn randomly across the map
+    [SerializeField] GameObject iceAreaPrefab; // Ice area prefab (should have correct initial scale!)    
+    // For now areas are spawned randomly in a circle with the following center and radius
+    Vector3 spawnCircleCenter = new Vector3(-200, 0, 230);
+    float spawnCircleRadius = 700;
+    int spawnLayer; // LayerMask for areas in which ice is allowed to spawn
+    // Problem: this does not take the level layout into account AT ALL.
+    // Most areas will be spawned off-road (though this is not necessarily a problem; the player may have to go offroad at times)
+    // Some areas are also spawned floating above the river (this *is* problematic for obvious reasons)
+    // Definitely something to revise.
+    // Possible solution: give the roads trigger hitboxes and reroll spawn position if it does not overlap with a road hitbox.
+    // This way all ice areas will be spawned on or near roads.
+
     void Start()
     {
+        spawnLayer = ~LayerMask.NameToLayer("IceSpawnArea"); // Yes, the ~ here serves a vital purpose. Do ask me (Wouter) about it if you're curious, it's too long to explain here.
+        SpawnIceAreas();
+    }
 
+    private void SpawnIceAreas()
+    {
+        Vector2 unitCirclePosition = Vector2.zero;
+        Vector3 spawnPosition = Vector3.zero;
+        for (int i = 0; i < areasToSpawn; i++)
+        {
+            do 
+            {
+                unitCirclePosition = Random.insideUnitCircle; // Generate random point on unit circle
+                spawnPosition = new Vector3(spawnCircleCenter.x + spawnCircleRadius * unitCirclePosition.x, spawnCircleCenter.y, spawnCircleCenter.z + spawnCircleRadius * unitCirclePosition.y); // Translate to actual spawn position
+                //Debug.Log(string.Format("Area {0} spawn position: {1}", i, spawnPosition)); // TEST
+                //Debug.Log(string.Format("Area {0} sphere check: {1}", i, Physics.CheckSphere(spawnPosition, 0.1f, spawnLayer, QueryTriggerInteraction.Collide))); // TEST
+            } 
+            while (!Physics.CheckSphere(spawnPosition, 0.1f, spawnLayer, QueryTriggerInteraction.Collide)); // Reroll spawn position until it overlaps with a valid spawn area (road)
+            Instantiate(iceAreaPrefab, spawnPosition, Quaternion.identity, transform); // Spawn object at spawnPosition as child of IceManager
+        }
     }
 
     public void InsideIceArea(bool isInside) // true if entered, false if exited

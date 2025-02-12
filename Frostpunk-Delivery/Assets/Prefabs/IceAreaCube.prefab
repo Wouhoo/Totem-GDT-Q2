@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7467914916271772681}
   - component: {fileID: 2520980391896847293}
   m_Layer: 0
-  m_Name: IceArea
+  m_Name: IceAreaCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
