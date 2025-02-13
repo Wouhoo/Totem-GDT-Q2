@@ -86,7 +86,10 @@ public class CarController : MonoBehaviour
         foreach (var wheel in wheels)
         {
             // Adjust wheel dampening rate
-            wheel.WheelCollider.wheelDampingRate = Mathf.Lerp(wheelDampeningRate, 0.25f, Mathf.Abs(vInput));
+            if (Mathf.Abs(vInput) > 0.1f) // We are trying to move
+                wheel.WheelCollider.wheelDampingRate = Mathf.Lerp(wheelDampeningRate, 0.25f, speedFactor * 5f); // * 6 so that we reach min dampening already at only 20% top speed
+            else // We are letting go of the gas and slightly breaking
+                wheel.WheelCollider.wheelDampingRate = Mathf.Lerp(wheelDampeningRate, 0.25f, speedFactor * 0.8f);  // smooth step instead of lerp here maybe?
 
             // Apply steering to Wheel colliders that have "Steerable" enabled
             if (wheel.steerable)
