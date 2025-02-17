@@ -5,6 +5,7 @@ using TMPro;
 using System;
 using UnityEngine.Assertions.Must;
 using Unity.VisualScripting;
+using Unity.Burst.Intrinsics;
 
 
 
@@ -14,6 +15,7 @@ public class CarController : MonoBehaviour
     // NOTICE : WE ASSUME CONSTANT MASS OF 1 !
 
     [SerializeField] TextMeshProUGUI speedText;
+    private CarHealth carHealth;
 
     [Header("Car Specs")]
     public float motorTorque = 2000;
@@ -39,6 +41,7 @@ public class CarController : MonoBehaviour
 
     [Header("Other")]
     public float landFrictionCoef = 1f;
+    public bool canDrive = true;
 
     private PlayerFuel playerFuel;
     WheelController[] wheels;
@@ -48,6 +51,7 @@ public class CarController : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         playerFuel = GetComponent<PlayerFuel>();
+        carHealth = GetComponent<CarHealth>();
 
         // Adjust center of mass vertically, to help prevent the car from rolling
         rigidBody.centerOfMass += Vector3.up * centreOfGravityOffset;
@@ -58,12 +62,17 @@ public class CarController : MonoBehaviour
         ResetFriction();
     }
 
-    void Update()
+
+
+    void FixedUpdate()
     {
         speedText.text = string.Format("Speed: {0:#.00}", rigidBody.velocity.magnitude);
 
-        //if (playerFuel.GetFuelLevel() < 0.01f)
-        //    return; // not enough fuel (pass all driving stuff below)
+        // get damage based on aceleration change
+        carHealth.NewVelocity(rigidBody.velocity, Time.deltaTime);
+
+        if (!canDrive) // in case car is disabled
+            return;
 
         float hInput = Input.GetAxis("Horizontal");
         float vInput = Input.GetAxis("Vertical");

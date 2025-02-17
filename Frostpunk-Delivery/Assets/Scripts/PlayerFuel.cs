@@ -11,6 +11,7 @@ public class PlayerFuel : MonoBehaviour
     // - Consuming fuel over time for driving around (fuel is removed by the PlayerController script)
     // - (Possibly) using fuel for special tools, like a flamethrower for thawing the road/removing obstacles
 
+
     private float fuelLevel; // set this with the public SetFuel or AddFuel methods
 
     private float maxFuelLevel = 50f;
@@ -19,12 +20,14 @@ public class PlayerFuel : MonoBehaviour
 
     private Rigidbody playerRb;
     private UpgradeManager upgradeManager;
+    private PlayerState playerState;
 
     [SerializeField] TextMeshProUGUI fuelText;
 
-    void Start()
+    void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
+        playerState = GetComponent<PlayerState>();
         upgradeManager = FindObjectOfType<UpgradeManager>();
         fuelLevel = maxFuelLevel;  // Start with a full tank of fuel
     }
@@ -35,6 +38,8 @@ public class PlayerFuel : MonoBehaviour
         if (fuel > maxFuelLevel) { fuel = maxFuelLevel; }
         fuelLevel = fuel;
         UpdateFuelText();
+
+        playerState.NoFuel(fuelLevel <= 0.01f);
     }
 
     public float GetFuelLevel()
@@ -52,6 +57,9 @@ public class PlayerFuel : MonoBehaviour
     public void SetCapacity(float capacity)
     {
         maxFuelLevel = capacity;
+        // check max fuel constraints
+        fuelLevel = Mathf.Min(fuelLevel, maxFuelLevel);
+
         UpdateFuelText();
     }
 

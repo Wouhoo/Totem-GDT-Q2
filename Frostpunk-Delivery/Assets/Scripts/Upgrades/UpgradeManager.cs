@@ -33,8 +33,8 @@ public class UpgradeManager : MonoBehaviour
         Time.timeScale = 0; // Freeze time while in upgrade menu
     }
 
-    public void CloseUpgradeMenu() 
-    { 
+    public void CloseUpgradeMenu()
+    {
         upgradeMenu.SetActive(false);
         Time.timeScale = 1; // Resume simulation at normal speed
     }
@@ -43,7 +43,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (fuelCapacityLevel < capacityAtLevel.Length)
         {
-            if(gameManager.playerScore >= costAtLevel[fuelCapacityLevel])
+            if (gameManager.playerScore >= costAtLevel[fuelCapacityLevel])
             {
                 gameManager.UpdateScore(-costAtLevel[fuelCapacityLevel]);
                 playerFuelScript.SetCapacity(capacityAtLevel[fuelCapacityLevel]);
@@ -63,5 +63,55 @@ public class UpgradeManager : MonoBehaviour
         {
             Debug.Log("Max level reached!");
         }
+    }
+
+    // UPGRADES (boiler plate stuff)
+
+    [Header("Fuel Capacity")]
+    public float _fuelCapacity;
+    public float _fuelCapacity_increment;
+    private float _fuelCapacity_buff = 1f;
+    [SerializeField] PlayerFuel playerFuel;
+    public void FuelCapacity_Upgrade()
+    {
+        _fuelCapacity += _fuelCapacity_increment;
+        FuelCapacity_ApplyBuff(_fuelCapacity_buff);
+    }
+    public void FuelCapacity_ApplyBuff(float buffPercent)
+    {
+        _fuelCapacity_buff = buffPercent;
+        playerFuel.SetCapacity(_fuelCapacity * _fuelCapacity_buff);
+    }
+
+    [Header("Max Speed")]
+    public float _maxSpeed;
+    public float _maxSpeed_increment;
+    private float _maxSpeed_buff = 1f;
+    [SerializeField] CarController carController;
+    public void MaxSpeed_Upgrade()
+    {
+        _maxSpeed += _maxSpeed_increment;
+        MaxSpeed_ApplyBuff(_fuelCapacity_buff);
+    }
+    public void MaxSpeed_ApplyBuff(float buffPercent)
+    {
+        _maxSpeed_buff = buffPercent;
+        carController.maxSpeed = _maxSpeed * _maxSpeed_buff;
+    }
+
+    [Header("Max Car Health")]
+    public float _maxCarHealth;
+    public float _maxCarHealth_increment;
+    private float _maxCarHealth_buff = 1f;
+    [SerializeField] CarHealth carHealth;
+    public void MaxCarHealth_Upgrade()
+    {
+        _maxCarHealth += _maxCarHealth_increment;
+        MaxCarHealth_ApplyBuff(_fuelCapacity_buff);
+    }
+    public void MaxCarHealth_ApplyBuff(float buffPercent)
+    {
+        _maxCarHealth_buff = buffPercent;
+        carHealth._maxCarHealth = _maxCarHealth * _maxCarHealth_buff;
     }
 }

@@ -8,6 +8,7 @@ TagManager:
   - Delivery Point
   - Upgrade Point
   - Flame
+  - Upgrade
   layers:
   - Default
   - TransparentFX

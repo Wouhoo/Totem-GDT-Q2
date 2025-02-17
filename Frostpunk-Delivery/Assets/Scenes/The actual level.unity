@@ -3259,6 +3259,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flamethrowerCone: {fileID: 825886468}
+--- !u!114 &629240364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389173345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddc411e9cd8864c41b30561bf98d501a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxCarHealth: 10
+  minAccForDamage: 5
+  accToDamageFactor: 0.5
+--- !u!114 &629240365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389173345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a862da637535c024193ca13d70d982a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _freezeTime: 6
 --- !u!1 &631453229
 GameObject:
   m_ObjectHideFlags: 0
@@ -7669,6 +7697,15 @@ MonoBehaviour:
   upgradeMenu: {fileID: 631453229}
   fuelUpgradeMeter: {fileID: 1224827171}
   fuelUpgradeButtonText: {fileID: 1554133159}
+  _fuelCapacity: 50
+  _fuelCapacity_increment: 10
+  playerFuel: {fileID: 2317746114683992416}
+  _maxSpeed: 35
+  _maxSpeed_increment: 5
+  carController: {fileID: 629240357}
+  _maxCarHealth: 10
+  _maxCarHealth_increment: 1
+  carHealth: {fileID: 629240364}
 --- !u!1001 &1492203882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12589,7 +12626,24 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5739018420132499863, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       insertIndex: -1
       addedObject: {fileID: 629240363}
+    - targetCorrespondingSourceObject: {fileID: 5739018420132499863, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 629240365}
+    - targetCorrespondingSourceObject: {fileID: 5739018420132499863, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 629240364}
   m_SourcePrefab: {fileID: 100100000, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+--- !u!114 &2317746114683992416 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3247736012922602978, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+  m_PrefabInstance: {fileID: 2317746114683992415}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389173345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7192c15c31eed8241bb0bf5169a03ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4513271995191277851
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12900,25 +12954,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 470059518333042713, guid: 7d140e494b5066848903bb31a47020ab, type: 3}
-      propertyPath: m_Height
-      value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 470059518333042713, guid: 7d140e494b5066848903bb31a47020ab, type: 3}
-      propertyPath: m_Radius
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1700292566948127311, guid: 7d140e494b5066848903bb31a47020ab, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1700292566948127311, guid: 7d140e494b5066848903bb31a47020ab, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 1700292566948127311, guid: 7d140e494b5066848903bb31a47020ab, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -120
+      value: -209.7
       objectReference: {fileID: 0}
     - target: {fileID: 1700292566948127311, guid: 7d140e494b5066848903bb31a47020ab, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12926,7 +12964,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1700292566948127311, guid: 7d140e494b5066848903bb31a47020ab, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 200
+      value: 212.7
       objectReference: {fileID: 0}
     - target: {fileID: 1700292566948127311, guid: 7d140e494b5066848903bb31a47020ab, type: 3}
       propertyPath: m_LocalRotation.w
