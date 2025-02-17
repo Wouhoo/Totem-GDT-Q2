@@ -2307,6 +2307,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9164521226472398938, guid: da512ec5a9b5d9443aba14d69ed95288, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12064,6 +12068,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: IceAreaCircle
       objectReference: {fileID: 0}
+    - target: {fileID: 2712857882252284054, guid: 9c4509f607d2bac4bb5a8eeda214be44, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6900473801931395490, guid: 9c4509f607d2bac4bb5a8eeda214be44, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.34
@@ -12770,6 +12778,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Delivery Point
       objectReference: {fileID: 0}
+    - target: {fileID: 2148414512493609676, guid: da512ec5a9b5d9443aba14d69ed95288, type: 3}
+      propertyPath: flameArea
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4337745551234693554, guid: da512ec5a9b5d9443aba14d69ed95288, type: 3}
       propertyPath: m_LocalPosition.x
       value: -140
@@ -13335,6 +13347,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 723733104}
     m_Modifications:
+    - target: {fileID: 3557110159623068347, guid: 0569df06353435142a7c472be4c71ff3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3557110159623068347, guid: 0569df06353435142a7c472be4c71ff3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4172412385597751797, guid: 0569df06353435142a7c472be4c71ff3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -100
@@ -13380,7 +13400,9 @@ PrefabInstance:
       value: City Block (5)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5385161232552704192, guid: 0569df06353435142a7c472be4c71ff3, type: 3}
+    - {fileID: 1529733938011496396, guid: 0569df06353435142a7c472be4c71ff3, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0569df06353435142a7c472be4c71ff3, type: 3}

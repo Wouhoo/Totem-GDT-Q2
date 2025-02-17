@@ -21,6 +21,9 @@ public class DeliveryPoint : MonoBehaviour
     Color inactiveColor = new Color(0.7f, 0.7f, 0.7f); // gray
     Color activeColor = new Color(1.0f, 0.6f, 0.0f);   // orange
 
+    //[SerializeField] GameObject flameArea;
+    //float flameDuration = 3.0f;
+
     private void Awake()
     {
         // Find related gameobjects & set stuff up
@@ -60,10 +63,14 @@ public class DeliveryPoint : MonoBehaviour
     public void CompleteQuest()
     {
         // Complete this point's assigned quest (called from PlayerFuel)
+        Debug.Log("QUEST COMPLETE");
         gameManager.UpdateScore(quest.pointReward);
         quest = null;
         questActive = false;
         UISetActive(false);
+        //flameArea.SetActive(true);
+        //Debug.Log("Flame area activated!");
+        //Invoke("DeactivateFlameArea", flameDuration);
     }
 
     void FailQuest()
@@ -84,4 +91,10 @@ public class DeliveryPoint : MonoBehaviour
         if (active) pointMaterial.color = activeColor; 
         else pointMaterial.color = inactiveColor;
     }
+
+    //void DeactivateFlameArea()
+    //{
+    //    flameArea.SetActive(false);
+    //    Debug.Log("Flame area deactivated");
+    //}
 }

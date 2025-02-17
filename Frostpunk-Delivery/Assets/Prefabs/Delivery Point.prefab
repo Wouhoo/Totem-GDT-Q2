@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questActive: 0
+  flameArea: {fileID: 0}
 --- !u!1 &2826351980410127602
 GameObject:
   m_ObjectHideFlags: 0
