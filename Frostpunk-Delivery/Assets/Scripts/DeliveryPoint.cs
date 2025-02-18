@@ -24,6 +24,11 @@ public class DeliveryPoint : MonoBehaviour
     //[SerializeField] GameObject flameArea;
     //float flameDuration = 3.0f;
 
+    [Header("Delivery Point Beacon")]
+    public float _beamColor;
+    Transform _player;
+    [SerializeField] Transform _beam;
+
     private void Awake()
     {
         // Find related gameobjects & set stuff up
@@ -33,6 +38,8 @@ public class DeliveryPoint : MonoBehaviour
         deliveryTimerFill = transform.Find("DeliveryPointUI/TimerFill").GetComponent<Image>();         // and here
         pointMaterial = GetComponent<Renderer>().material;
         UISetActive(false);
+
+        _player = GameObject.FindWithTag("Player").transform;
     }
 
     private void Update()
@@ -42,11 +49,15 @@ public class DeliveryPoint : MonoBehaviour
             // Count down timer for active quest
             remainingTime -= Time.deltaTime;
             deliveryTimerFill.fillAmount = remainingTime / quest.timeLimit;
-            if(remainingTime <= 0)
+            if (remainingTime <= 0)
             {
                 // Fail quest if time gets <= 0
                 FailQuest();
             }
+
+            // if active quest; adjust the beam based on player distance
+            float dist = Vector3.Distance(transform.position, _player.position);
+            _beam.localScale = new Vector3(dist / 20, 99999f, dist / 20);
         }
     }
 
@@ -58,6 +69,9 @@ public class DeliveryPoint : MonoBehaviour
         remainingTime = quest.timeLimit;
         UISetActive(true);
         deliveryText.text = string.Format("{0}", quest.fuelToDeliver); // Displays only fuel to deliver for now; might display more/other info later.
+
+        // show beam
+        _beam.gameObject.SetActive(true);
     }
 
     public void CompleteQuest()
@@ -71,6 +85,9 @@ public class DeliveryPoint : MonoBehaviour
         //flameArea.SetActive(true);
         //Debug.Log("Flame area activated!");
         //Invoke("DeactivateFlameArea", flameDuration);
+
+        // hide beam
+        _beam.gameObject.SetActive(false);
     }
 
     void FailQuest()
@@ -80,6 +97,9 @@ public class DeliveryPoint : MonoBehaviour
         quest = null;
         questActive = false;
         UISetActive(false);
+
+        // hide beam
+        _beam.gameObject.SetActive(false);
     }
 
     void UISetActive(bool active)
@@ -88,7 +108,7 @@ public class DeliveryPoint : MonoBehaviour
         deliveryText.gameObject.SetActive(active);
         deliveryTimer.gameObject.SetActive(active);
         deliveryTimerFill.gameObject.SetActive(active);
-        if (active) pointMaterial.color = activeColor; 
+        if (active) pointMaterial.color = activeColor;
         else pointMaterial.color = inactiveColor;
     }
 
