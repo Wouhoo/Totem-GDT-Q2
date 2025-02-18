@@ -6,7 +6,6 @@ public class UpgradePoint : MonoBehaviour
 {
     [SerializeField] GameObject[] upgrades;
     private float timer = 0f;
-    private bool isTimerRunning = false;
 
     void Start()
     {
@@ -45,7 +44,6 @@ public class UpgradePoint : MonoBehaviour
             if (timer >= 10f)
             {
                 // Reset the timer and spawn a new random prefab
-                isTimerRunning = false;
                 SpawnRandomUpgrade();
                 // Reset the timer if there are children
                 timer = 0f;

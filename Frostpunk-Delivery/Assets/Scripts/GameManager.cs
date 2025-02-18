@@ -7,8 +7,8 @@ public class GameManager : MonoBehaviour
 {
     // Stores "global" stuff, like the player's score/money
     public int playerScore { get; private set; } = 0;
+    [SerializeField] GameObject gameOverScreen;
     [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] TextMeshProUGUI gameOverText;
 
     public void UpdateScore(int scoreToAdd)
     {
@@ -18,6 +18,6 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        gameOverText.gameObject.SetActive(true);
+        gameOverScreen.gameObject.SetActive(true);
     }
 }
