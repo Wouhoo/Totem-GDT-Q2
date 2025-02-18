@@ -6,7 +6,7 @@ public class CarHealth : MonoBehaviour
 {
     private PlayerState playerState;
     public float _maxCarHealth = 10;
-    private float _carHealth;
+    public float _carHealth;
     private Vector3 oldVelocity = new Vector3(0f, 0f, 0f);
     private float acceleration;
     public float minAccForDamage = 5f;
@@ -25,6 +25,7 @@ public class CarHealth : MonoBehaviour
         oldVelocity = velocity;
         if (acceleration > minAccForDamage)
         {
+            Debug.Log(acceleration);
             Set_Health(_carHealth - acceleration * accToDamageFactor);
         }
     }
