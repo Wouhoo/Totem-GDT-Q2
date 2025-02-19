@@ -25,16 +25,16 @@ public class PlayerState : MonoBehaviour
     {
         _carBroke = state;
         UpdateDyingState();
-        Debug.Log("car broke");
-        Debug.Log(state);
+        //Debug.Log("car broke");
+        //Debug.Log(state);
     }
 
     public void NoFuel(bool state)
     {
         _noFuel = state;
         UpdateDyingState();
-        Debug.Log("no fule");
-        Debug.Log(state);
+        //Debug.Log("no fule");
+        //Debug.Log(state);
     }
 
     private void UpdateDyingState()

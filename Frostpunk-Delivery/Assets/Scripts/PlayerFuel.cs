@@ -68,9 +68,15 @@ public class PlayerFuel : MonoBehaviour
         fuelText.text = string.Format("Fuel: {0:#.0} / {1:#.0}", fuelLevel, maxFuelLevel);
     }
 
+    private bool AtPointCheck(Collider other)
+    {
+        return other.CompareTag("Delivery Point") || other.CompareTag("Pickup Point") || other.CompareTag("Upgrade Point");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        atPoint = true;
+        if (AtPointCheck(other))
+            atPoint = true;
     }
 
     private void OnTriggerStay(Collider other)
@@ -82,6 +88,7 @@ public class PlayerFuel : MonoBehaviour
             if (other.tag == "Pickup Point")
             {
                 PickupFuel();
+                atPoint = false;
             }
             else if (other.tag == "Delivery Point")
             {
@@ -90,19 +97,21 @@ public class PlayerFuel : MonoBehaviour
                 {
                     DeliverFuel(deliveryPointScript);
                 }
+                atPoint = false;
             }
             else if (other.tag == "Upgrade Point")
             {
                 upgradeManager.OpenUpgradeMenu();
                 playerRb.velocity = new Vector3(0, 0, 0); // Reset player's velocity if they go into the shop to upgrade
+                atPoint = false;
             }
-            atPoint = false;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        atPoint = false;
+        if(AtPointCheck(other))
+            atPoint = false;
     }
 
     void PickupFuel()

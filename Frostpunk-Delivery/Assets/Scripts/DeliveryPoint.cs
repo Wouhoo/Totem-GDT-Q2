@@ -21,8 +21,8 @@ public class DeliveryPoint : MonoBehaviour
     Color inactiveColor = new Color(0.7f, 0.7f, 0.7f); // gray
     Color activeColor = new Color(1.0f, 0.6f, 0.0f);   // orange
 
-    //[SerializeField] GameObject flameArea;
-    //float flameDuration = 3.0f;
+    [SerializeField] GameObject flameArea;
+    float flameDuration = 2.0f;
 
     [Header("Delivery Point Beacon")]
     public float _beamColor;
@@ -82,9 +82,11 @@ public class DeliveryPoint : MonoBehaviour
         quest = null;
         questActive = false;
         UISetActive(false);
-        //flameArea.SetActive(true);
-        //Debug.Log("Flame area activated!");
-        //Invoke("DeactivateFlameArea", flameDuration);
+
+        // Melt ice around point by briefly spawning a flame area around it
+        flameArea.SetActive(true);
+        Debug.Log("Flame area activated!");
+        Invoke("DeactivateFlameArea", flameDuration);
 
         // hide beam
         _beam.gameObject.SetActive(false);
@@ -112,9 +114,9 @@ public class DeliveryPoint : MonoBehaviour
         else pointMaterial.color = inactiveColor;
     }
 
-    //void DeactivateFlameArea()
-    //{
-    //    flameArea.SetActive(false);
-    //    Debug.Log("Flame area deactivated");
-    //}
+    void DeactivateFlameArea()
+    {
+        flameArea.SetActive(false);
+        Debug.Log("Flame area deactivated");
+    }
 }
