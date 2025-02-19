@@ -12,10 +12,19 @@ public class CarHealth : MonoBehaviour
     public float minAccForDamage = 5f;
     public float accToDamageFactor = 0.5f;
 
+    [Header("Smoke effects")]
+    private ParticleSystem smokeParticles;
+    private ParticleSystem.MainModule smokeMain;
+    [SerializeField] float smokeThreshold = 50.0f; // You'll start seeing smoke if your health falls below this amount
+    [SerializeField] float smokeMultiplier = 3.0f; // Smoke gets more intense as you get more damaged, up to this multiplier at 0 health
+    // Smoke size formula: 0 if health > smokeThreshold, else 1 + (smokeThreshold - health)/smokeThreshold * smokeMultiplier
+
     // Start is called before the first frame update
     void Awake()
     {
         playerState = GetComponent<PlayerState>();
+        smokeParticles = transform.Find("Smoke particles").GetComponent<ParticleSystem>();
+        smokeMain = smokeParticles.main;
         _carHealth = _maxCarHealth;
     }
 
@@ -34,5 +43,15 @@ public class CarHealth : MonoBehaviour
     {
         _carHealth = Mathf.Clamp(amount, 0f, _maxCarHealth);
         playerState.CarBroke(_carHealth < 0.1f);
+        // Show smoke when 
+        if(_carHealth < smokeThreshold)
+        {
+            smokeParticles.Play();
+            smokeMain.startSizeMultiplier = 1 + smokeMultiplier * (smokeThreshold - _carHealth)/smokeThreshold;
+        }
+        else
+        {
+            smokeParticles.Stop();
+        }
     }
 }

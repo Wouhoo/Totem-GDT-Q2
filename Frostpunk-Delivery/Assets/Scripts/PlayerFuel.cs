@@ -24,10 +24,15 @@ public class PlayerFuel : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI fuelText;
 
+    private ParticleSystem upgradeParticles; // Particles that are played when the player upgrades or refuels their car
+                                             // (can probably use the same effect for both, I'm lazy)
+
+
     void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
         playerState = GetComponent<PlayerState>();
+        upgradeParticles = transform.Find("Upgrade particles").GetComponent<ParticleSystem>();
         upgradeManager = FindObjectOfType<UpgradeManager>();
         fuelLevel = maxFuelLevel;  // Start with a full tank of fuel
     }
@@ -103,6 +108,7 @@ public class PlayerFuel : MonoBehaviour
             {
                 upgradeManager.OpenUpgradeMenu();
                 playerRb.velocity = new Vector3(0, 0, 0); // Reset player's velocity if they go into the shop to upgrade
+                upgradeParticles.Play();
                 atPoint = false;
             }
         }
@@ -118,7 +124,8 @@ public class PlayerFuel : MonoBehaviour
     {
         // At least for now, picking up fuel at a pickup point completely fills your fuel level to the max
         SetFuel(maxFuelLevel);
-        Debug.Log("Picked up fuel!");
+        upgradeParticles.Play();
+        //Debug.Log("Picked up fuel!");
     }
 
     void DeliverFuel(DeliveryPoint deliveryPoint)

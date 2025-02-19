@@ -21,8 +21,10 @@ public class DeliveryPoint : MonoBehaviour
     Color inactiveColor = new Color(0.7f, 0.7f, 0.7f); // gray
     Color activeColor = new Color(1.0f, 0.6f, 0.0f);   // orange
 
+    [Header("Flame area & particles")]
     [SerializeField] GameObject flameArea;
-    float flameDuration = 2.0f;
+    [SerializeField] float flameDuration = 2.0f;
+    private ParticleSystem flameParticles;
 
     [Header("Delivery Point Beacon")]
     public float _beamColor;
@@ -33,6 +35,7 @@ public class DeliveryPoint : MonoBehaviour
     {
         // Find related gameobjects & set stuff up
         gameManager = FindObjectOfType<GameManager>();
+        flameParticles = GetComponentInChildren<ParticleSystem>();
         deliveryText = transform.Find("DeliveryPointUI/DeliveryText").GetComponent<TextMeshProUGUI>(); // has to be found before the UI is parented to the canvas, hence Awake() instead of Start()
         deliveryTimer = transform.Find("DeliveryPointUI/TimerBG").GetComponent<Image>();               // same here
         deliveryTimerFill = transform.Find("DeliveryPointUI/TimerFill").GetComponent<Image>();         // and here
@@ -84,6 +87,7 @@ public class DeliveryPoint : MonoBehaviour
         UISetActive(false);
 
         // Melt ice around point by briefly spawning a flame area around it
+        flameParticles.Play();
         flameArea.SetActive(true);
         Debug.Log("Flame area activated!");
         Invoke("DeactivateFlameArea", flameDuration);
