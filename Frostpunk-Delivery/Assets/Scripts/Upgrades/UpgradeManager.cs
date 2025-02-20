@@ -43,7 +43,7 @@ public class UpgradeManager : MonoBehaviour
     {
         if (fuelCapacityLevel < capacityAtLevel.Length)
         {
-            if (gameManager.playerScore >= costAtLevel[fuelCapacityLevel])
+            if (gameManager.playerMoney >= costAtLevel[fuelCapacityLevel])
             {
                 gameManager.UpdateScore(-costAtLevel[fuelCapacityLevel]);
                 playerFuelScript.SetCapacity(capacityAtLevel[fuelCapacityLevel]);
@@ -113,5 +113,21 @@ public class UpgradeManager : MonoBehaviour
     {
         _maxCarHealth_buff = buffPercent;
         carHealth._maxCarHealth = _maxCarHealth * _maxCarHealth_buff;
+    }
+
+    // Pickups
+    [Header("Pickups")]
+    [SerializeField] Vector2Int moneyRandRange;
+    public void MoneyPickup()
+    {
+        int money = Random.Range(moneyRandRange.x, moneyRandRange.y);
+        gameManager.UpdateScore(money);
+    }
+
+    [SerializeField] Vector2Int fuelRandRange;
+    public void FuelPickup()
+    {
+        int fuel = Random.Range(fuelRandRange.x, fuelRandRange.y);
+        playerFuel.AddFuel(fuel);
     }
 }

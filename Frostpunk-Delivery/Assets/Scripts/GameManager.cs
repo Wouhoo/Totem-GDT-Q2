@@ -6,18 +6,23 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     // Stores "global" stuff, like the player's score/money
-    public int playerScore { get; private set; } = 0;
+    public int playerMoney { get; private set; } = 0;
+    private int playerScore = 0;
     [SerializeField] GameObject gameOverScreen;
+    [SerializeField] TextMeshProUGUI moneyText;
     [SerializeField] TextMeshProUGUI scoreText;
 
     public void UpdateScore(int scoreToAdd)
     {
-        playerScore += scoreToAdd;
-        scoreText.text = string.Format("Score: {0}", playerScore);
+        playerMoney += scoreToAdd;
+        if(scoreToAdd > 0) // Any money *gained* should be added to score; however, subtractions from money do not subtract score.
+            playerScore += scoreToAdd;
+        moneyText.text = string.Format("${0}", playerMoney);
     }
 
     public void GameOver()
     {
+        scoreText.text = string.Format("Score: {0}", playerScore);
         gameOverScreen.gameObject.SetActive(true);
     }
 }

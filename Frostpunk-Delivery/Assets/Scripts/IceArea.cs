@@ -25,7 +25,7 @@ public class IceArea : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        Debug.Log("triggered");
+        //Debug.Log("triggered");
         if (collider.tag == "Player")
             iceManager.InsideIceArea(true);
     }
