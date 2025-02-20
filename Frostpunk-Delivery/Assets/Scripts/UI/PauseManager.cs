@@ -9,15 +9,18 @@ using UnityEditor;
 
 public class PauseManager : MonoBehaviour
 {
-    // Script for managing the in-game pause screen
+    // Script for managing the in-game pause screen & tutorial pop-up
     [SerializeField] GameObject pauseScreen;
     [SerializeField] GameObject helpScreen;
+    [SerializeField] GameObject tutorialScreen;
     private SFXPlayer sfxPlayer;
     private bool paused;
 
     private void Awake()
     {
         sfxPlayer = FindObjectOfType<SFXPlayer>();
+        tutorialScreen.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     private void Update()
@@ -64,5 +67,12 @@ public class PauseManager : MonoBehaviour
     {
         sfxPlayer.ClickButtonSound();
         helpScreen.SetActive(false);
+    }
+
+    public void LeaveTutorial()
+    {
+        sfxPlayer.ClickButtonSound();
+        tutorialScreen.SetActive(false);
+        Time.timeScale = 1f;
     }
 }
