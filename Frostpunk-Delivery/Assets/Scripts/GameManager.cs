@@ -24,5 +24,6 @@ public class GameManager : MonoBehaviour
     {
         scoreText.text = string.Format("Score: {0}", playerScore);
         gameOverScreen.gameObject.SetActive(true);
+        Time.timeScale = 0.0f;
     }
 }

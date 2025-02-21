@@ -54,6 +54,7 @@ public class PauseManager : MonoBehaviour
     public void BackToMenu()
     {
         sfxPlayer.ClickButtonSound();
+        Time.timeScale = 0;
         SceneManager.LoadScene(0);
     }
 

@@ -13,6 +13,7 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         sfxPlayer = FindObjectOfType<SFXPlayer>();
+        Time.timeScale = 1.0f;
     }
 
     public void StartGame()

@@ -18,10 +18,14 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] Image fuelUpgradeMeter;
     [SerializeField] TextMeshProUGUI fuelUpgradeButtonText;
 
+    // Health upgrades (for now always repair for free when stopping at the shop)
+    private CarHealth playerHealthScript;
+
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
         playerFuelScript = FindObjectOfType<PlayerFuel>();
+        playerHealthScript = FindObjectOfType<CarHealth>();
         upgradeMenu.SetActive(false);
 
         fuelUpgradeButtonText.text = string.Format("Upgrade (${0})", costAtLevel[0]);
@@ -37,6 +41,8 @@ public class UpgradeManager : MonoBehaviour
     {
         upgradeMenu.SetActive(false);
         Time.timeScale = 1; // Resume simulation at normal speed
+        playerHealthScript.Set_Health(playerHealthScript._maxCarHealth); // Also fully repair the car
+
     }
 
     public void UpgradeFuelCapacity()

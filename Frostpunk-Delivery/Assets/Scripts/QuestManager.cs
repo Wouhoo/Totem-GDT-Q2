@@ -8,14 +8,14 @@ public class QuestManager : MonoBehaviour
     DeliveryPoint[] deliveryPoints;
 
     float startDelay = 3.0f;  // time until first quest is started
-    float questDelay = 25.0f; // time between quest spawns
+    float questDelay = 30.0f; // time between quest spawns
 
     // Quests will ask for an amount of fuel between questMinFuel and questMaxFuel.
     // The amount of fuel determines the reward and time limit. 
     int questMinFuel = 10;
     int questMaxFuel = 20;
-    int questMinTime = 60;
-    int questMaxTime = 90;
+    int questMinTime = 70;
+    int questMaxTime = 100;
     float largeDeliveryModifier = 2f; // largeDeliveryModifier * fuelToDeliver will be added to quest time limit
 
     void Start()
