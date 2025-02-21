@@ -25094,7 +25094,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       propertyPath: maxSpeed
-      value: 40
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       propertyPath: speedText
@@ -25110,7 +25110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       propertyPath: steeringRange
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       propertyPath: fuelEfficiency
@@ -25138,7 +25138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       propertyPath: centreOfGravityOffset
-      value: -1.45
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       propertyPath: forwardAsymptoteValue
@@ -25162,7 +25162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7801508879842864174, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       propertyPath: steeringRangeAtMaxSpeed
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8749020106581035124, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       propertyPath: m_LocalPosition.y

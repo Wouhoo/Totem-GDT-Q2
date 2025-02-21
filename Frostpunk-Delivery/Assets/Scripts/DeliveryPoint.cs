@@ -60,7 +60,7 @@ public class DeliveryPoint : MonoBehaviour
 
             // if active quest; adjust the beam based on player distance
             float dist = Vector3.Distance(transform.position, _player.position);
-            _beam.localScale = new Vector3(dist / 20, 99999f, dist / 20);
+            _beam.localScale = new Vector3(dist / 20 + 1, 99999f, dist / 20 + 1);
         }
     }
 
