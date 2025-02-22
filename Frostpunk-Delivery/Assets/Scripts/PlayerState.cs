@@ -52,7 +52,7 @@ public class PlayerState : MonoBehaviour
         {
             _deathTimer += Time.deltaTime;
             if (_deathTimer > _freezeTime)
-                gameManager.GameOver();
+                gameManager.GameOver(_carBroke ? 1 : 2); // Cause of death = car damage (1) if _carBroke, else no fuel (2)
         }
     }
 }

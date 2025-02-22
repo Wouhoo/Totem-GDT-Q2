@@ -7,21 +7,14 @@ public class IceManager : MonoBehaviour
     // Script for spawning & managing ice areas
     public float iceFrictionCoef = 0.3f; // land friction is 0.8
     public CarController carController;
-
-    public float iceAreaCounter = 0f;
+    private float iceAreaCounter = 0f;
 
     [SerializeField] int areasToSpawn = 40;    // Amount of areas to spawn randomly across the map
     [SerializeField] GameObject iceAreaPrefab; // Ice area prefab (should have correct initial scale!)    
     // For now areas are spawned randomly in a circle with the following center and radius
     Vector3 spawnCircleCenter = new Vector3(-200, 0, 230);
     float spawnCircleRadius = 700;
-    int spawnLayer; // LayerMask for areas in which ice is allowed to spawn
-    // Problem: this does not take the level layout into account AT ALL.
-    // Most areas will be spawned off-road (though this is not necessarily a problem; the player may have to go offroad at times)
-    // Some areas are also spawned floating above the river (this *is* problematic for obvious reasons)
-    // Definitely something to revise.
-    // Possible solution: give the roads trigger hitboxes and reroll spawn position if it does not overlap with a road hitbox.
-    // This way all ice areas will be spawned on or near roads.
+    int spawnLayer; // LayerMask for areas in which ice is allowed to spawn (this is only the IceSpawnArea layer)
 
     void Start()
     {

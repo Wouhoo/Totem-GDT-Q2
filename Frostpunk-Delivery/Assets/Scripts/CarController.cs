@@ -71,11 +71,18 @@ public class CarController : MonoBehaviour
         // get damage based on aceleration change
         carHealth.NewVelocity(rigidBody.velocity, Time.deltaTime);
 
-        if (!canDrive) // in case car is disabled
-            return;
-
-        float hInput = Input.GetAxis("Horizontal");
-        float vInput = Input.GetAxis("Vertical");
+        float hInput;
+        float vInput;
+        if (!canDrive) // Input = 0 in case car is disabled
+        {
+            hInput = 0f;
+            vInput = 0f;
+        } 
+        else 
+        {
+            hInput = Input.GetAxis("Horizontal");
+            vInput = Input.GetAxis("Vertical");
+        }
 
         // Calculate current speed in relation to the forward direction of the car (this returns a negative number when traveling backwards)
         float forwardSpeed = Vector3.Dot(transform.forward, rigidBody.velocity);

@@ -8,7 +8,10 @@ public class DeliveryPoint : MonoBehaviour
 {
     // Code for managing a delivery point and its assigned quest
     public bool questActive = false;
+    public bool pointFrozen = false;
     public Quest quest;
+
+    [SerializeField] GameObject iceArea;
 
     GameManager gameManager;
 
@@ -16,6 +19,7 @@ public class DeliveryPoint : MonoBehaviour
     Image deliveryTimer;
     Image deliveryTimerFill;
     float remainingTime;
+    int failedDeliveries = 0;
 
     Material pointMaterial;
     Color inactiveColor = new Color(0.7f, 0.7f, 0.7f); // gray
@@ -41,6 +45,7 @@ public class DeliveryPoint : MonoBehaviour
         deliveryTimerFill = transform.Find("DeliveryPointUI/TimerFill").GetComponent<Image>();         // and here
         pointMaterial = GetComponent<Renderer>().material;
         UISetActive(false);
+        iceArea.SetActive(false);
 
         _player = GameObject.FindWithTag("Player").transform;
     }
@@ -80,7 +85,6 @@ public class DeliveryPoint : MonoBehaviour
     public void CompleteQuest()
     {
         // Complete this point's assigned quest (called from PlayerFuel)
-        Debug.Log("QUEST COMPLETE");
         gameManager.UpdateScore(quest.pointReward);
         quest = null;
         questActive = false;
@@ -89,7 +93,6 @@ public class DeliveryPoint : MonoBehaviour
         // Melt ice around point by briefly spawning a flame area around it
         flameParticles.Play();
         flameArea.SetActive(true);
-        Debug.Log("Flame area activated!");
         Invoke("DeactivateFlameArea", flameDuration);
 
         // hide beam
@@ -99,10 +102,12 @@ public class DeliveryPoint : MonoBehaviour
     void FailQuest()
     {
         // Fail quest if fuel is not delivered within time limit (called from Update() if remaining time is < 0)
-        gameManager.GameOver(); // For now, failing a quest will be an instant game over
+        gameManager.AddFailedQuest();
         quest = null;
         questActive = false;
         UISetActive(false);
+        pointFrozen = true;
+        iceArea.SetActive(true); // Spawn ice area at failed point
 
         // hide beam
         _beam.gameObject.SetActive(false);
@@ -121,6 +126,5 @@ public class DeliveryPoint : MonoBehaviour
     void DeactivateFlameArea()
     {
         flameArea.SetActive(false);
-        Debug.Log("Flame area deactivated");
     }
 }
