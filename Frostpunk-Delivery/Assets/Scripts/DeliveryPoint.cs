@@ -8,7 +8,10 @@ public class DeliveryPoint : MonoBehaviour
 {
     // Code for managing a delivery point and its assigned quest
     public bool questActive = false;
+    public bool pointFrozen = false;
     public Quest quest;
+
+    [SerializeField] GameObject iceArea;
 
     GameManager gameManager;
 
@@ -21,15 +24,29 @@ public class DeliveryPoint : MonoBehaviour
     Color inactiveColor = new Color(0.7f, 0.7f, 0.7f); // gray
     Color activeColor = new Color(1.0f, 0.6f, 0.0f);   // orange
 
+    [Header("Flame area & particles")]
+    [SerializeField] GameObject flameArea;
+    [SerializeField] float flameDuration = 2.0f;
+    private ParticleSystem flameParticles;
+
+    [Header("Delivery Point Beacon")]
+    public float _beamColor;
+    Transform _player;
+    [SerializeField] Transform _beam;
+
     private void Awake()
     {
         // Find related gameobjects & set stuff up
         gameManager = FindObjectOfType<GameManager>();
+        flameParticles = GetComponentInChildren<ParticleSystem>();
         deliveryText = transform.Find("DeliveryPointUI/DeliveryText").GetComponent<TextMeshProUGUI>(); // has to be found before the UI is parented to the canvas, hence Awake() instead of Start()
         deliveryTimer = transform.Find("DeliveryPointUI/TimerBG").GetComponent<Image>();               // same here
         deliveryTimerFill = transform.Find("DeliveryPointUI/TimerFill").GetComponent<Image>();         // and here
         pointMaterial = GetComponent<Renderer>().material;
         UISetActive(false);
+        iceArea.SetActive(false);
+
+        _player = GameObject.FindWithTag("Player").transform;
     }
 
     private void Update()
@@ -39,11 +56,15 @@ public class DeliveryPoint : MonoBehaviour
             // Count down timer for active quest
             remainingTime -= Time.deltaTime;
             deliveryTimerFill.fillAmount = remainingTime / quest.timeLimit;
-            if(remainingTime <= 0)
+            if (remainingTime <= 0)
             {
                 // Fail quest if time gets <= 0
                 FailQuest();
             }
+
+            // if active quest; adjust the beam based on player distance
+            float dist = Vector3.Distance(transform.position, _player.position);
+            _beam.localScale = new Vector3(dist / 20 + 1, 99999f, dist / 20 + 1);
         }
     }
 
@@ -55,6 +76,9 @@ public class DeliveryPoint : MonoBehaviour
         remainingTime = quest.timeLimit;
         UISetActive(true);
         deliveryText.text = string.Format("{0}", quest.fuelToDeliver); // Displays only fuel to deliver for now; might display more/other info later.
+
+        // show beam
+        _beam.gameObject.SetActive(true);
     }
 
     public void CompleteQuest()
@@ -64,15 +88,28 @@ public class DeliveryPoint : MonoBehaviour
         quest = null;
         questActive = false;
         UISetActive(false);
+
+        // Melt ice around point by briefly spawning a flame area around it
+        flameParticles.Play();
+        flameArea.SetActive(true);
+        Invoke("DeactivateFlameArea", flameDuration);
+
+        // hide beam
+        _beam.gameObject.SetActive(false);
     }
 
     void FailQuest()
     {
-        // Fail quest if fuel is not delivered within time limit (invoked in AssignQuest and canceled in CompleteQuest)
-        gameManager.GameOver(); // For now, failing a quest will be an instant game over
+        // Fail quest if fuel is not delivered within time limit (called from Update() if remaining time is < 0)
+        gameManager.AddFailedQuest();
         quest = null;
         questActive = false;
         UISetActive(false);
+        pointFrozen = true;
+        iceArea.SetActive(true); // Spawn ice area at failed point
+
+        // hide beam
+        _beam.gameObject.SetActive(false);
     }
 
     void UISetActive(bool active)
@@ -81,7 +118,12 @@ public class DeliveryPoint : MonoBehaviour
         deliveryText.gameObject.SetActive(active);
         deliveryTimer.gameObject.SetActive(active);
         deliveryTimerFill.gameObject.SetActive(active);
-        if (active) pointMaterial.color = activeColor; 
+        if (active) pointMaterial.color = activeColor;
         else pointMaterial.color = inactiveColor;
+    }
+
+    void DeactivateFlameArea()
+    {
+        flameArea.SetActive(false);
     }
 }

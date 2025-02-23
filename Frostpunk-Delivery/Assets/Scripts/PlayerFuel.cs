@@ -11,6 +11,7 @@ public class PlayerFuel : MonoBehaviour
     // - Consuming fuel over time for driving around (fuel is removed by the PlayerController script)
     // - (Possibly) using fuel for special tools, like a flamethrower for thawing the road/removing obstacles
 
+
     private float fuelLevel; // set this with the public SetFuel or AddFuel methods
 
     private float maxFuelLevel = 50f;
@@ -19,21 +20,37 @@ public class PlayerFuel : MonoBehaviour
 
     private Rigidbody playerRb;
     private UpgradeManager upgradeManager;
+    private PlayerState playerState;
 
     [SerializeField] TextMeshProUGUI fuelText;
 
-    void Start()
+    private ParticleSystem upgradeParticles; // Particles that are played when the player upgrades or refuels their car
+                                             // (can probably use the same effect for both, I'm lazy)
+
+
+    void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
+        playerState = GetComponent<PlayerState>();
+        upgradeParticles = transform.Find("Upgrade particles").GetComponent<ParticleSystem>();
         upgradeManager = FindObjectOfType<UpgradeManager>();
+        fuelLevel = maxFuelLevel;  // Start with a full tank of fuel
     }
 
     public void SetFuel(float fuel)
     {
         // Set fuel level and update fuel text (and later, hopefully, also update fuel meters on the UI and/or the vehicle itself)
-        if(fuel > maxFuelLevel) { fuel = maxFuelLevel; }
+        if (fuel > maxFuelLevel) { fuel = maxFuelLevel; }
         fuelLevel = fuel;
         UpdateFuelText();
+
+        playerState.NoFuel(fuelLevel <= 0.01f);
+    }
+
+    public float GetFuelLevel()
+    {
+        // tells us how much fuel we have (for other scripts to use if necessary)
+        return fuelLevel;
     }
 
     public void AddFuel(float fuelToAdd)
@@ -45,6 +62,9 @@ public class PlayerFuel : MonoBehaviour
     public void SetCapacity(float capacity)
     {
         maxFuelLevel = capacity;
+        // check max fuel constraints
+        fuelLevel = Mathf.Min(fuelLevel, maxFuelLevel);
+
         UpdateFuelText();
     }
 
@@ -53,9 +73,15 @@ public class PlayerFuel : MonoBehaviour
         fuelText.text = string.Format("Fuel: {0:#.0} / {1:#.0}", fuelLevel, maxFuelLevel);
     }
 
+    private bool AtPointCheck(Collider other)
+    {
+        return other.CompareTag("Delivery Point") || other.CompareTag("Pickup Point") || other.CompareTag("Upgrade Point");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        atPoint = true;
+        if (AtPointCheck(other))
+            atPoint = true;
     }
 
     private void OnTriggerStay(Collider other)
@@ -66,7 +92,8 @@ public class PlayerFuel : MonoBehaviour
         {
             if (other.tag == "Pickup Point")
             {
-                PickupFuel(other.GetComponent<AudioSource>());
+                PickupFuel();
+                atPoint = false;
             }
             else if (other.tag == "Delivery Point")
             {
@@ -76,41 +103,36 @@ public class PlayerFuel : MonoBehaviour
                     AudioSource[] deliveryAudios = other.GetComponents<AudioSource>();
                     DeliverFuel(deliveryPointScript, deliveryAudios);
                 }
+                atPoint = false;
             }
             else if (other.tag == "Upgrade Point")
             {
                 upgradeManager.OpenUpgradeMenu();
-                AudioSource shopArrivalAudio = other.GetComponent<AudioSource>();
-                if (shopArrivalAudio != null)
-                {
-                    shopArrivalAudio.Play(); // Play the garage door opening sound
-                }
-                playerRb.velocity = new Vector3 (0, 0, 0); // Reset player's velocity if they go into the shop to upgrade
+                playerRb.velocity = new Vector3(0, 0, 0); // Reset player's velocity if they go into the shop to upgrade
+                upgradeParticles.Play();
+                atPoint = false;
             }
-            atPoint = false;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        atPoint = false;
+        if(AtPointCheck(other))
+            atPoint = false;
     }
     void PickupFuel(AudioSource pickupAudio)
     {
         // At least for now, picking up fuel at a pickup point completely fills your fuel level to the max
         SetFuel(maxFuelLevel);
-        Debug.Log("Picked up fuel!");
-        if (pickupAudio != null) 
-        {
-            pickupAudio.Play(); // Fuel sound plays, will switch this from oil to wood or coal
-        }
+        upgradeParticles.Play();
+        //Debug.Log("Picked up fuel!");
     }
 
     void DeliverFuel(DeliveryPoint deliveryPoint, AudioSource[] deliveryAudios)
     {
         float fuelToDeliver = deliveryPoint.quest.fuelToDeliver;
 
-        if(fuelLevel > fuelToDeliver)
+        if (fuelLevel > fuelToDeliver)
         {
             AddFuel(-fuelToDeliver);
             deliveryPoint.CompleteQuest();
