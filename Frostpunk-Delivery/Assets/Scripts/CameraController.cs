@@ -31,7 +31,7 @@ public class CameraController : MonoBehaviour
 
         // Calculate the target position and apply minimum height
         Vector3 targetPosition = car.position + car.TransformDirection(offset);
-        targetPosition.y = Mathf.Max(targetPosition.y, minimumHeight);
+        targetPosition.y = Mathf.Max(targetPosition.y, car.position.y + minimumHeight);
 
         // Smoothly interpolate the position
         transform.position = Vector3.Lerp(transform.position, targetPosition, posLerpRate * Time.deltaTime);
