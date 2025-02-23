@@ -13,22 +13,32 @@ public class UpgradeManager : MonoBehaviour
     // Fuel upgrades
     private PlayerFuel playerFuelScript;
     private int fuelCapacityLevel = 0;                                             // Current fuel capacity upgrade level
-    private float[] capacityAtLevel = new float[] { 80f, 120f, 170f, 230f, 300f }; // Fuel capacity at each upgrade level
-    private int[] costAtLevel = new int[] { 10, 25, 45, 70, 100 };                 // Cost of upgrading to the next level
-    [SerializeField] Image fuelUpgradeMeter;
-    [SerializeField] TextMeshProUGUI fuelUpgradeButtonText;
+    private float[] fuelCapacityAtLevel = new float[] { 80f, 120f, 170f, 230f, 300f }; // Fuel capacity at each upgrade level
+    private int[] fuelcapacityCostAtLevel = new int[] { 10, 25, 45, 70, 100 };                 // Cost of upgrading to the next level
+    [SerializeField] Image fuelCapacityUpgradeMeter;
+    [SerializeField] TextMeshProUGUI fuelCapacityUpgradeButtonText;
 
     // Health upgrades (for now always repair for free when stopping at the shop)
     private CarHealth playerHealthScript;
+
+    // Flamethrower upgrades
+    private FlameThrower flameThrower;
+    [SerializeField] Image flamethrowerUpgradeMeter;
+    [SerializeField] TextMeshProUGUI flamethrowerUpgradeButtonText;
+    private int flamethrowerLevel = 0;
+    private float[] flamethrowerConsumptionAtLevel = new float[] { 5.0f, 4.0f, 3.0f, 2.0f, 1.0f};
+    private int[] flamethrowerCostAtLevel = new int[] { 30, 10, 15, 20, 25 };  // First upgrade unlocks the flamethrower, therefore more expensive
 
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
         playerFuelScript = FindObjectOfType<PlayerFuel>();
         playerHealthScript = FindObjectOfType<CarHealth>();
+        flameThrower = FindObjectOfType<FlameThrower>();
         upgradeMenu.SetActive(false);
 
-        fuelUpgradeButtonText.text = string.Format("Upgrade (${0})", costAtLevel[0]);
+        fuelCapacityUpgradeButtonText.text = string.Format("Upgrade (${0})", fuelcapacityCostAtLevel[0]);
+        flamethrowerUpgradeButtonText.text = string.Format("Unlock (${0})", flamethrowerCostAtLevel[0]); // Flamethrower's first upgrade unlocks it
     }
 
     public void OpenUpgradeMenu()
@@ -47,28 +57,48 @@ public class UpgradeManager : MonoBehaviour
 
     public void UpgradeFuelCapacity()
     {
-        if (fuelCapacityLevel < capacityAtLevel.Length)
+        if (fuelCapacityLevel < fuelCapacityAtLevel.Length)  // Check if max level has been reached
         {
-            if (gameManager.playerMoney >= costAtLevel[fuelCapacityLevel])
+            if (gameManager.playerMoney >= fuelcapacityCostAtLevel[fuelCapacityLevel])  // Check if player has enough money
             {
-                gameManager.UpdateScore(-costAtLevel[fuelCapacityLevel]);
-                playerFuelScript.SetCapacity(capacityAtLevel[fuelCapacityLevel]);
+                gameManager.UpdateScore(-fuelcapacityCostAtLevel[fuelCapacityLevel]);  // Pay money
+                playerFuelScript.SetCapacity(fuelCapacityAtLevel[fuelCapacityLevel]);  // Increase capacity
                 fuelCapacityLevel++;
-                fuelUpgradeMeter.fillAmount = (float)fuelCapacityLevel / (float)capacityAtLevel.Length;
-                if (fuelCapacityLevel < costAtLevel.Length)
-                    fuelUpgradeButtonText.text = string.Format("Upgrade (${0})", costAtLevel[fuelCapacityLevel]);
+                fuelCapacityUpgradeMeter.fillAmount = (float)fuelCapacityLevel / (float)fuelCapacityAtLevel.Length;  // Fill upgrade meter in shop screen
+                // Update upgrade button text with next cost
+                if (fuelCapacityLevel < fuelcapacityCostAtLevel.Length)
+                    fuelCapacityUpgradeButtonText.text = string.Format("Upgrade (${0})", fuelcapacityCostAtLevel[fuelCapacityLevel]);  
                 else
-                    fuelUpgradeButtonText.text = "MAX LEVEL REACHED";
+                    fuelCapacityUpgradeButtonText.text = "MAX LEVEL REACHED";
             }
             else
-            {
                 Debug.Log("Not enough money!");
-            }
         }
         else
-        {
             Debug.Log("Max level reached!");
+    }
+
+    public void UpgradeFlamethrower()
+    {
+        if (flamethrowerLevel < flamethrowerConsumptionAtLevel.Length)  // Check if max level has been reached
+        {
+            if (gameManager.playerMoney >= flamethrowerCostAtLevel[flamethrowerLevel])  // Check if player has enough money
+            {
+                gameManager.UpdateScore(-flamethrowerCostAtLevel[flamethrowerLevel]);  // Pay money
+                flameThrower.SetConsumptionRate(flamethrowerConsumptionAtLevel[flamethrowerLevel]);  // Set new fuel consumption rate
+                flamethrowerLevel++;
+                flamethrowerUpgradeMeter.fillAmount = (float)flamethrowerLevel / (float)flamethrowerConsumptionAtLevel.Length;  // Fill upgrade meter in shop screen
+                // Update upgrade button text with next cost
+                if (flamethrowerLevel < flamethrowerCostAtLevel.Length)
+                    flamethrowerUpgradeButtonText.text = string.Format("Upgrade (${0})", flamethrowerCostAtLevel[flamethrowerLevel]);
+                else
+                    flamethrowerUpgradeButtonText.text = "MAX LEVEL REACHED";
+            }
+            else
+                Debug.Log("Not enough money!");
         }
+        else
+            Debug.Log("Max level reached!");
     }
 
     // UPGRADES (boiler plate stuff)

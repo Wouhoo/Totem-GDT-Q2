@@ -6,7 +6,7 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     // Stores "global" stuff, like the player's score/money and the number of quests they've failed
-    public int playerMoney { get; private set; } = 0;
+    public int playerMoney = 0;
     private int playerScore = 0;
     public int failedQuests; // This should probably be displayed on the HUD somewhere...
 

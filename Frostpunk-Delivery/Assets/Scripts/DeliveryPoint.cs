@@ -19,7 +19,6 @@ public class DeliveryPoint : MonoBehaviour
     Image deliveryTimer;
     Image deliveryTimerFill;
     float remainingTime;
-    int failedDeliveries = 0;
 
     Material pointMaterial;
     Color inactiveColor = new Color(0.7f, 0.7f, 0.7f); // gray
