@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public void UpdateScore(int scoreToAdd)
     {
         playerMoney += scoreToAdd;
-        if(scoreToAdd > 0) // Any money *gained* should be added to score; however, subtractions from money do not subtract score.
+        if (scoreToAdd > 0) // Any money *gained* should be added to score; however, subtractions from money do not subtract score.
             playerScore += scoreToAdd;
         moneyText.text = string.Format("${0}", playerMoney);
     }
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public void AddFailedQuest()
     {
         failedQuests++;
-        if(failedQuests == 3) // Game over when 3rd quest is failed
+        if (failedQuests == 3) // Game over when 3rd quest is failed
         {
             GameOver(0);
         }
