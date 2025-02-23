@@ -48,6 +48,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1445256475741289208, guid: d7f390f63b92b3f4fa59eef4b01d9489, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6280117534060925393, guid: d7f390f63b92b3f4fa59eef4b01d9489, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6368266856074411839, guid: d7f390f63b92b3f4fa59eef4b01d9489, type: 3}
       propertyPath: m_Name
       value: City Block (Bridge)
