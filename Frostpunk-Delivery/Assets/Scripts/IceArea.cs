@@ -10,7 +10,7 @@ public class IceArea : MonoBehaviour
     // and also makes the area grow over time and shrink when hit by a flamethrower hitbox.
 
     private IceManager iceManager;
-
+    public bool dynamicSize = true; // size can grow / shrink (ie. most stuff except river)
     private float startDelay = 5.0f;        // Seconds until the ice areas start growing (give the player some time to get used to the game)
     private float growthDelay = 1.0f;       // Seconds between growth ticks
     private float growthMultiplier = 1.01f; // Growth multiplier in each tick (should be small enough so that the growth in one tick is not noticeable)
@@ -38,15 +38,21 @@ public class IceArea : MonoBehaviour
 
     void IncreaseSize()
     {
+        if (!dynamicSize)
+            return;
+
         // Multiplies the area's x and z scale by the provided multiplier.
         transform.localScale = new Vector3(transform.localScale.x * growthMultiplier, transform.localScale.y, transform.localScale.z * growthMultiplier);
     }
 
     private void OnTriggerStay(Collider other)
     {
+        if (!dynamicSize)
+            return;
+
         //Debug.Log(string.Format("Colliding with collider {0}", other.name));
         // Melt ice while touching a flame 
-        if(other.CompareTag("Flame"))
+        if (other.CompareTag("Flame"))
         {
             transform.localScale = new Vector3(transform.localScale.x * (1 - meltMultiplier * Time.deltaTime), transform.localScale.y, transform.localScale.z * (1 - meltMultiplier * Time.deltaTime));
         }
