@@ -6,6 +6,7 @@ using UnityEngine.Animations;
 public class IceArea : MonoBehaviour
 {
     // Script for handling ice areas.
+    // --- Now repurposed to handle any area with different friction; default friction is offroad friction
     // Tells the ice manager if you are in the ice area (so it reduces friction accordingly),
     // and also makes the area grow over time and shrink when hit by a flamethrower hitbox.
 
