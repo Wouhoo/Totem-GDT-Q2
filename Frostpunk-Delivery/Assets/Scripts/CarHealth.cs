@@ -12,6 +12,9 @@ public class CarHealth : MonoBehaviour
     public float minAccForDamage = 5f;
     public float accToDamageFactor = 0.5f;
 
+    private CameraController cameraController;
+    [SerializeField] float accToShakeFactor = 0.01f;
+
     [Header("Smoke effects")]
     private ParticleSystem smokeParticles;
     private ParticleSystem.MainModule smokeMain;
@@ -23,6 +26,7 @@ public class CarHealth : MonoBehaviour
     void Awake()
     {
         playerState = GetComponent<PlayerState>();
+        cameraController = FindObjectOfType<CameraController>();
         smokeParticles = transform.Find("Smoke particles").GetComponent<ParticleSystem>();
         smokeMain = smokeParticles.main;
         _carHealth = _maxCarHealth;
@@ -36,6 +40,7 @@ public class CarHealth : MonoBehaviour
         {
             Debug.Log(acceleration);
             Set_Health(_carHealth - acceleration * accToDamageFactor);
+            cameraController.StartShaking(acceleration * accToShakeFactor);
         }
     }
 

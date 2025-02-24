@@ -13,6 +13,12 @@ public class CameraController : MonoBehaviour
     public float posLerpRate = 5f;
     public float rotSlerpRate = 5f;
 
+    [Header("Screenshake effect")]
+    [SerializeField] AnimationCurve intensityCurve;
+    [SerializeField] float duration = 1f;
+    private float initialIntensity = 0f;
+    private float elapsedTime = 0f;
+    private bool shaking = false;
 
     void LateUpdate()
     {
@@ -50,5 +56,29 @@ public class CameraController : MonoBehaviour
 
         // Smoothly interpolate the rotation
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotSlerpRate * Time.deltaTime);
+
+        // Add random offset each frame during screenshake effect
+        if(shaking)
+        {
+            elapsedTime += Time.deltaTime;
+            float curveIntensity = intensityCurve.Evaluate(elapsedTime / duration);
+            transform.position = transform.position + Random.insideUnitSphere * curveIntensity * initialIntensity; // Move camera by a random offset scaled based on curve and initial impact intensity
+        }
+    }
+
+    public void StartShaking(float crashIntensity)
+    {
+        if(!shaking) // Only start shaking if we're not already shaking
+        {
+            initialIntensity = crashIntensity;
+            elapsedTime = 0;
+            shaking = true;
+            Invoke("StopShaking", duration);
+        }
+    }
+
+    private void StopShaking()
+    {
+        shaking = false;
     }
 }

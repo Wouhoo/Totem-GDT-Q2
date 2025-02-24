@@ -28171,6 +28171,40 @@ MonoBehaviour:
   tiltAngle: -15
   posLerpRate: 5
   rotSlerpRate: 20
+  intensityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.0047187805
+      inSlope: 1.9537847
+      outSlope: 1.9537847
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.1099941
+      value: 0.21962357
+      inSlope: 0.104308404
+      outSlope: 0.104308404
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.24621718
+    - serializedVersion: 3
+      time: 1
+      value: 0.0047187805
+      inSlope: -0.24146445
+      outSlope: -0.24146445
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  duration: 1
 --- !u!1 &1655630629
 GameObject:
   m_ObjectHideFlags: 0
@@ -38254,6 +38288,7 @@ MonoBehaviour:
   _carHealth: 0
   minAccForDamage: 100
   accToDamageFactor: 0.02
+  accToShakeFactor: 0.002
   smokeThreshold: 50
   smokeMultiplier: 3
 --- !u!114 &2520980391067747317
