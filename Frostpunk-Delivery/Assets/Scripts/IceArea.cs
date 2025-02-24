@@ -24,19 +24,6 @@ public class IceArea : MonoBehaviour
         InvokeRepeating("IncreaseSize", startDelay, growthDelay); // Start ice growth process
     }
 
-    void OnTriggerEnter(Collider collider)
-    {
-        //Debug.Log("triggered");
-        if (collider.tag == "Player")
-            iceManager.InsideIceArea(true);
-    }
-
-    void OnTriggerExit(Collider collider)
-    {
-        if (collider.tag == "Player")
-            iceManager.InsideIceArea(false);
-    }
-
     void IncreaseSize()
     {
         if (!dynamicSize)

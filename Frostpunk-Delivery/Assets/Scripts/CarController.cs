@@ -6,6 +6,7 @@ using System;
 using UnityEngine.Assertions.Must;
 using Unity.VisualScripting;
 using Unity.Burst.Intrinsics;
+using UnityEngine.ProBuilder.MeshOperations;
 
 
 
@@ -38,6 +39,16 @@ public class CarController : MonoBehaviour
     [SerializeField] float baseWheelDampeningRate = 100f;
     private float wheelDampeningRate; // Set to 0.25 when driving, else to the current rate
 
+    [Header("Friction modifiers based on road material")]
+    private LayerMask roadLayer;
+    private LayerMask dirtRoadLayer;
+    private LayerMask iceLayer;
+    [SerializeField] float roadFriction = 1.0f;
+    [SerializeField] float dirtFriction = 0.8f;
+    [SerializeField] float offroadFriction = 0.6f;
+    [Tooltip("Base friction coefficient will be multiplied by this value if on ice")] [SerializeField] float iceModifier = 0.3f;
+    private Vector3 checkOffset = new Vector3(0, -2.0f, 0); // Offset & radius of the sphere centered on transform.position that checks if the player is on road/ice
+    private float checkRadius = 1.0f; 
 
     [Header("Other")]
     public float landFrictionCoef = 1f;
@@ -46,12 +57,18 @@ public class CarController : MonoBehaviour
     private PlayerFuel playerFuel;
     WheelController[] wheels;
     private Rigidbody rigidBody;
+    
 
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
         playerFuel = GetComponent<PlayerFuel>();
         carHealth = GetComponent<CarHealth>();
+
+        // Get layermasks
+        roadLayer = 1 << LayerMask.NameToLayer("Road");
+        dirtRoadLayer = 1 << LayerMask.NameToLayer("DirtRoad");
+        iceLayer = 1 << LayerMask.NameToLayer("Ice");
 
         // Adjust center of mass vertically, to help prevent the car from rolling
         rigidBody.centerOfMass += Vector3.up * centreOfGravityOffset;
@@ -67,6 +84,8 @@ public class CarController : MonoBehaviour
     void FixedUpdate()
     {
         speedText.text = string.Format("Speed: {0:#.00}", rigidBody.velocity.magnitude);
+
+        CheckFriction(); // Set car friction based on material you're driving on
 
         // get damage based on aceleration change
         carHealth.NewVelocity(rigidBody.velocity, Time.deltaTime);
@@ -130,6 +149,40 @@ public class CarController : MonoBehaviour
                 wheel.WheelCollider.motorTorque = 0;
             }
         }
+    }
+
+    private void CheckFriction()
+    {
+        // Set car friction based on material that you're driving on
+        float friction = 1.0f;
+
+        // Find the "best quality" road that the car is on
+        // Note: could maybe be optimized by only getting a list of overlapping colliders once and checking if any of them are tagged road or dirt road.
+        // However, this was easier to implement :)
+        if (Physics.CheckSphere(transform.position + checkOffset, checkRadius, roadLayer, QueryTriggerInteraction.Collide))
+        {
+            friction = roadFriction;
+            //Debug.Log("ON ROAD");
+        }
+        else if (Physics.CheckSphere(transform.position + checkOffset, checkRadius, dirtRoadLayer, QueryTriggerInteraction.Collide))
+        {  
+            friction = dirtFriction;
+            //Debug.Log("ON DIRT");
+        }
+        else
+        {
+            friction = offroadFriction;
+            //Debug.Log("OFFROAD");
+        }
+
+        // Reduce friction if on ice
+        if (Physics.CheckSphere(transform.position + checkOffset, checkRadius, iceLayer, QueryTriggerInteraction.Collide))
+        {
+            friction *= iceModifier;
+            //Debug.Log("ON ICE");
+        }
+
+        SetFriction(friction);
     }
 
     public void SetFriction(float frictionCoef)

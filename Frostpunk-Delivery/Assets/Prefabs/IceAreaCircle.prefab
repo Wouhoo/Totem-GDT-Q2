@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9099281808319460723}
   - component: {fileID: 80538149417630176}
   - component: {fileID: 7873202272156462774}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: IceAreaCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
