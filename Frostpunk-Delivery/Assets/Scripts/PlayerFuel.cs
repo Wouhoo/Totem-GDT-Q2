@@ -22,11 +22,12 @@ public class PlayerFuel : MonoBehaviour
     private UpgradeManager upgradeManager;
     private PlayerState playerState;
 
-    [SerializeField] TextMeshProUGUI fuelText;
+    [SerializeField] TextMeshProUGUI currentFuelText;
+    [SerializeField] TextMeshProUGUI notEnoughFuelText;
+    [SerializeField] float notEnoughFuelTextDuration = 3.0f;
 
     private ParticleSystem upgradeParticles; // Particles that are played when the player upgrades or refuels their car
                                              // (can probably use the same effect for both, I'm lazy)
-
 
     void Awake()
     {
@@ -70,7 +71,7 @@ public class PlayerFuel : MonoBehaviour
 
     private void UpdateFuelText()
     {
-        fuelText.text = string.Format("Fuel: {0:#.0} / {1:#.0}", fuelLevel, maxFuelLevel);
+        currentFuelText.text = string.Format("Fuel: {0:#.0} / {1:#.0}", fuelLevel, maxFuelLevel);
     }
 
     private bool AtPointCheck(Collider other)
@@ -134,13 +135,22 @@ public class PlayerFuel : MonoBehaviour
 
         if (fuelLevel > fuelToDeliver)
         {
+            // Complete delivery quest
             AddFuel(-fuelToDeliver);
             deliveryPoint.CompleteQuest();
             Debug.Log("Succesfully delivered fuel!");
         }
         else
         {
+            // Display pop-up text "Not enough fuel!"
+            notEnoughFuelText.gameObject.SetActive(true);
+            Invoke("HideNotEnoughFuelText", notEnoughFuelTextDuration);
             Debug.Log("Not enough fuel to deliver!");
         }
+    }
+
+    void HideNotEnoughFuelText()
+    {
+        notEnoughFuelText.gameObject.SetActive(false);
     }
 }
