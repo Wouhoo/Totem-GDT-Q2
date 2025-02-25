@@ -35,6 +35,7 @@ public class UpgradeManager : MonoBehaviour
     {
         upgradeMenu.SetActive(true);
         Time.timeScale = 0; // Freeze time while in upgrade menu
+        _gameManager.PlayUpgradeMenuOpenSound();
     }
 
     public void CloseUpgradeMenu()
@@ -42,6 +43,7 @@ public class UpgradeManager : MonoBehaviour
         upgradeMenu.SetActive(false);
         _carHealth.Set_Health(_carHealth._maxCarHealth); // full heal
         Time.timeScale = 1; // Resume simulation at normal speed
+        _gameManager.PlayUpgradeMenuCloseSound();
     }
 
     [Header("Upgrade Fuel Capacity")]
@@ -58,6 +60,7 @@ public class UpgradeManager : MonoBehaviour
         {
             if (_gameManager.playerMoney >= fuelcapacityCostAtLevel[fuelCapacityLevel])  // Check if player has enough money
             {
+                _gameManager.PlayUpgradeButtonClickSound();
                 _gameManager.UpdateScore(-fuelcapacityCostAtLevel[fuelCapacityLevel]);  // Pay money
                 _playerFuel.SetCapacity(fuelCapacityAtLevel[fuelCapacityLevel]);  // Increase capacity
                 fuelCapacityLevel++;
@@ -70,9 +73,11 @@ public class UpgradeManager : MonoBehaviour
             }
             else
                 Debug.Log("Not enough money!");
+                _gameManager.PlayUnsuccessfulDeliverySound();
         }
         else
             Debug.Log("Max level reached!");
+            _gameManager.PlayUnsuccessfulDeliverySound();
     }
 
     [Header("Upgrade Flamethrower")]
@@ -89,6 +94,7 @@ public class UpgradeManager : MonoBehaviour
         {
             if (_gameManager.playerMoney >= flamethrowerCostAtLevel[flamethrowerLevel])  // Check if player has enough money
             {
+                _gameManager.PlayUpgradeButtonClickSound();
                 _gameManager.UpdateScore(-flamethrowerCostAtLevel[flamethrowerLevel]);  // Pay money
                 _flameThrower.SetConsumptionRate(flamethrowerConsumptionAtLevel[flamethrowerLevel]);  // Set new fuel consumption rate
                 flamethrowerLevel++;
@@ -101,9 +107,11 @@ public class UpgradeManager : MonoBehaviour
             }
             else
                 Debug.Log("Not enough money!");
+                _gameManager.PlayUnsuccessfulDeliverySound();
         }
         else
             Debug.Log("Max level reached!");
+            _gameManager.PlayUnsuccessfulDeliverySound();
     }
 
     [Header("Upgrade Max Health")]
@@ -120,6 +128,7 @@ public class UpgradeManager : MonoBehaviour
         {
             if (_gameManager.playerMoney >= maxHealth_CostAtLevel[maxHealth_Level])  // Check if player has enough money
             {
+                _gameManager.PlayUpgradeButtonClickSound();
                 _gameManager.UpdateScore(-maxHealth_CostAtLevel[maxHealth_Level]);  // Pay money
                 _carHealth.Set_MaxHealth(maxHealth_AtLevel[maxHealth_Level]);  // Increase capacity
                 maxHealth_Level++;
@@ -132,9 +141,11 @@ public class UpgradeManager : MonoBehaviour
             }
             else
                 Debug.Log("Not enough money!");
+                _gameManager.PlayUnsuccessfulDeliverySound();
         }
         else
             Debug.Log("Max level reached!");
+            _gameManager.PlayUnsuccessfulDeliverySound();
     }
 
     [Header("Upgrade Max Speed")]
@@ -151,6 +162,7 @@ public class UpgradeManager : MonoBehaviour
         {
             if (_gameManager.playerMoney >= maxSpeed_CostAtLevel[maxSpeed_Level])  // Check if player has enough money
             {
+                _gameManager.PlayUpgradeButtonClickSound();
                 _gameManager.UpdateScore(-maxSpeed_CostAtLevel[maxSpeed_Level]);  // Pay money
                 _carController.Set_MaxSpeed(maxSpeed_AtLevel[maxSpeed_Level]);  // Increase
                 maxSpeed_Level++;
@@ -163,9 +175,11 @@ public class UpgradeManager : MonoBehaviour
             }
             else
                 Debug.Log("Not enough money!");
+                _gameManager.PlayUnsuccessfulDeliverySound();
         }
         else
             Debug.Log("Max level reached!");
+            _gameManager.PlayUnsuccessfulDeliverySound();
     }
 
     [Header("Upgrade Traction")]
@@ -182,6 +196,7 @@ public class UpgradeManager : MonoBehaviour
         {
             if (_gameManager.playerMoney >= traction_CostAtLevel[traction_Level])  // Check if player has enough money
             {
+                _gameManager.PlayUpgradeButtonClickSound();
                 _gameManager.UpdateScore(-traction_CostAtLevel[traction_Level]);  // Pay money
                 _carController.Set_TractionFactor(traction_AtLevel[traction_Level]);  // Increase
                 traction_Level++;
@@ -194,9 +209,11 @@ public class UpgradeManager : MonoBehaviour
             }
             else
                 Debug.Log("Not enough money!");
+                _gameManager.PlayUnsuccessfulDeliverySound();
         }
         else
             Debug.Log("Max level reached!");
+            _gameManager.PlayUnsuccessfulDeliverySound();
     }
 
 
@@ -215,6 +232,7 @@ public class UpgradeManager : MonoBehaviour
     {
         int fuel = Random.Range(fuelRandRange.x, fuelRandRange.y);
         _playerFuel.AddFuel(fuel);
+        _gameManager.PlayRefuelSound();
     }
 
     [SerializeField] Vector2Int healthRandRange;
@@ -222,5 +240,6 @@ public class UpgradeManager : MonoBehaviour
     {
         int health = Random.Range(fuelRandRange.x, fuelRandRange.y);
         _carHealth.Add_Health(health);
+        _gameManager.PlayUpgradeButtonClickSound();
     }
 }

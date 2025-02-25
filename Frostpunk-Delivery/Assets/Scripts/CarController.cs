@@ -56,6 +56,10 @@ public class CarController : MonoBehaviour
     public float landFrictionCoef = 1f;
     public bool canDrive = true;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource iceScrapingAudioSource;
+    [SerializeField] private float minSpeedForIceSound = 2f;
+
     private PlayerFuel playerFuel;
     WheelController[] wheels;
     private Rigidbody rigidBody;
@@ -77,6 +81,13 @@ public class CarController : MonoBehaviour
 
         // Find all child GameObjects that have the WheelControl script attached
         wheels = GetComponentsInChildren<WheelController>();
+
+        if (iceScrapingAudioSource != null)
+        {
+            iceScrapingAudioSource.Stop();
+            iceScrapingAudioSource.loop = true;
+            iceScrapingAudioSource.playOnAwake = false;
+        }
 
         ResetFriction();
     }
@@ -191,14 +202,29 @@ public class CarController : MonoBehaviour
             friction *= iceModifier;
             _firctionState += 10;
             //Debug.Log("ON ICE");
+            if (!iceScrapingAudioSource.isPlaying && rigidBody.velocity.magnitude > minSpeedForIceSound)
+            {
+                iceScrapingAudioSource.loop = true;
+                iceScrapingAudioSource.Play();
+            }
+            else if (iceScrapingAudioSource.isPlaying && rigidBody.velocity.magnitude <= minSpeedForIceSound)
+            {
+                iceScrapingAudioSource.Stop();
+            }
         }
-
-        if (_firctionState == _priorFirctionState)
-            return;
         else
         {
-            _priorFirctionState = _firctionState;
-            SetFriction(friction);
+            if (iceScrapingAudioSource.isPlaying)
+            {
+                iceScrapingAudioSource.Stop();
+            }
+            if (_firctionState == _priorFirctionState)
+                return;
+            else
+            {
+                _priorFirctionState = _firctionState;
+                SetFriction(friction);
+            }
         }
     }
 
