@@ -167,6 +167,37 @@ public class UpgradeManager : MonoBehaviour
             Debug.Log("Max level reached!");
     }
 
+    // [Header("Upgrade Traction")]
+
+    // private int fuelCapacityLevel = 0;                                                  // Current fuel capacity upgrade level
+    // private float[] fuelCapacityAtLevel = new float[] { 80f, 120f, 170f, 230f, 300f };  // Fuel capacity at each upgrade level
+    // private int[] fuelcapacityCostAtLevel = new int[] { 10, 25, 45, 70, 100 };          // Cost of upgrading to the next level
+    // [SerializeField] Image fuelCapacityUpgradeMeter;
+    // [SerializeField] TextMeshProUGUI fuelCapacityUpgradeButtonText;
+
+    // public void UpgradeFuelCapacity()
+    // {
+    //     if (fuelCapacityLevel < fuelCapacityAtLevel.Length)  // Check if max level has been reached
+    //     {
+    //         if (_gameManager.playerMoney >= fuelcapacityCostAtLevel[fuelCapacityLevel])  // Check if player has enough money
+    //         {
+    //             _gameManager.UpdateScore(-fuelcapacityCostAtLevel[fuelCapacityLevel]);  // Pay money
+    //             _playerFuel.SetCapacity(fuelCapacityAtLevel[fuelCapacityLevel]);  // Increase capacity
+    //             fuelCapacityLevel++;
+    //             fuelCapacityUpgradeMeter.fillAmount = (float)fuelCapacityLevel / (float)fuelCapacityAtLevel.Length;  // Fill upgrade meter in shop screen
+    //             // Update upgrade button text with next cost
+    //             if (fuelCapacityLevel < fuelcapacityCostAtLevel.Length)
+    //                 fuelCapacityUpgradeButtonText.text = string.Format("Upgrade (${0})", fuelcapacityCostAtLevel[fuelCapacityLevel]);
+    //             else
+    //                 fuelCapacityUpgradeButtonText.text = "MAX LEVEL REACHED";
+    //         }
+    //         else
+    //             Debug.Log("Not enough money!");
+    //     }
+    //     else
+    //         Debug.Log("Max level reached!");
+    // }
+
 
     // Pickups
     [Header("Pickups")]
