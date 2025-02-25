@@ -1265,7 +1265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startDelay: 3
-  questDelay: 30
+  questDelay: 25
   questMinFuel: 10
   questMaxFuel: 20
   questMinTime: 70
@@ -15705,7 +15705,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 298471793}
-  m_VersionIndex: 4296
+  m_VersionIndex: 4299
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -30719,7 +30719,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -40395,6 +40395,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1628861106}
     - target: {fileID: 3247736012922602978, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: maxSpeedForDelivery
+      value: 999
+      objectReference: {fileID: 0}
+    - target: {fileID: 3247736012922602978, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       propertyPath: notEnoughFuelTextDuration
       value: 2.5
       objectReference: {fileID: 0}
@@ -40698,6 +40702,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dynamicSize: 1
+  startDelay: 5
+  growthDelay: 1
+  growthMultiplier: 1.01
+  meltMultiplier: 0.7
 --- !u!4 &3080191542268022455
 Transform:
   m_ObjectHideFlags: 0

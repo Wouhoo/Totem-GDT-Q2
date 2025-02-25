@@ -121,3 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dynamicSize: 1
+  startDelay: 30
+  growthDelay: 1
+  growthMultiplier: 1.003
+  meltMultiplier: 0.7

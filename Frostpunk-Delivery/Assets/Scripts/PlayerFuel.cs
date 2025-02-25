@@ -15,7 +15,7 @@ public class PlayerFuel : MonoBehaviour
     private float fuelLevel; // set this with the public SetFuel or AddFuel methods
 
     private float maxFuelLevel = 50f;
-    private float maxSpeedForDelivery = 2.0f; // max speed the player is allowed to have at a pickup/delivery point to pick up/deliver fuel
+    [SerializeField] float maxSpeedForDelivery = 10.0f; // max speed the player is allowed to have at a pickup/delivery point to pick up/deliver fuel
     private bool atPoint; // true if a player is at a pickup/delivery point *but has not yet done the thing there* (because they're going too fast)
 
     private Rigidbody playerRb;
@@ -108,7 +108,7 @@ public class PlayerFuel : MonoBehaviour
             else if (other.tag == "Upgrade Point")
             {
                 upgradeManager.OpenUpgradeMenu();
-                playerRb.velocity = new Vector3(0, 0, 0); // Reset player's velocity if they go into the shop to upgrade
+                //playerRb.velocity = new Vector3(0, 0, 0); // Reset player's velocity if they go into the shop to upgrade
                 upgradeParticles.Play();
                 atPoint = false;
             }

@@ -12,11 +12,11 @@ public class IceArea : MonoBehaviour
 
     private IceManager iceManager;
     public bool dynamicSize = true; // size can grow / shrink (ie. most stuff except river)
-    private float startDelay = 5.0f;        // Seconds until the ice areas start growing (give the player some time to get used to the game)
-    private float growthDelay = 1.0f;       // Seconds between growth ticks
-    private float growthMultiplier = 1.01f; // Growth multiplier in each tick (should be small enough so that the growth in one tick is not noticeable)
+    [SerializeField] float startDelay = 5.0f;        // Seconds until the ice areas start growing (give the player some time to get used to the game)
+    [SerializeField] float growthDelay = 1.0f;       // Seconds between growth ticks
+    [SerializeField] float growthMultiplier = 1.01f; // Growth multiplier in each tick (should be small enough so that the growth in one tick is not noticeable)
     // ^ Currently these are test values so the growth is very noticeable. SHOULD BE REDUCED/TWEAKED IN THE FINAL GAME
-    private float meltMultiplier = 0.7f;    // How quickly the ice melts when exposed to a flame
+    [SerializeField] float meltMultiplier = 0.7f;    // How quickly the ice melts when exposed to a flame
 
     void Start()
     {
