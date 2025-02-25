@@ -7,6 +7,7 @@ using UnityEngine.Assertions.Must;
 using Unity.VisualScripting;
 using Unity.Burst.Intrinsics;
 using UnityEngine.ProBuilder.MeshOperations;
+using UnityEngine.Rendering;
 
 
 
@@ -26,6 +27,7 @@ public class CarController : MonoBehaviour
     public float steeringRangeAtMaxSpeed = 10;
     public float centreOfGravityOffset = -1f;
     public float fuelEfficiency = 4000f;     // Amount of motor toruqe of 1 wheel for 1 second   needed 1 unit of fuel (ie. fuelEfficiency = - tor * dt / dF )
+    public float tractionFactor = 0; // how much we "push" a friction to the standard friction amount (road + no ice) [0=normal, 1="road + no ice"]
 
     [Header("Wheel friction curve modifiers")]
     [SerializeField] float forwardExtremumSlip = 0.4f;
@@ -200,8 +202,15 @@ public class CarController : MonoBehaviour
         }
     }
 
+    public void Set_TractionFactor(float amount)
+    {
+        tractionFactor = Mathf.Clamp(amount, 0, 1);
+    }
+
     public void SetFriction(float frictionCoef)
     {
+        frictionCoef = tractionFactor * roadFriction + (1 - tractionFactor) * frictionCoef; // "push the friction to the road amount based on "tractionFactor"
+
         Debug.Log(frictionCoef);
 
         WheelFrictionCurve wheelFrictionCurve_forward = new WheelFrictionCurve();
