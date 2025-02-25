@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7927790107196668467}
   - component: {fileID: 6743167344273712249}
   - component: {fileID: 5757952785404486113}
-  - component: {fileID: 6007872203640371638}
+  - component: {fileID: 4596416185252786328}
   m_Layer: 0
   m_Name: Money_Pickup
   m_TagString: Untagged
@@ -104,9 +104,9 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6007872203640371638
+--- !u!114 &4596416185252786328
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5344320249613483572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38c5e5c832cd8794db8b57f9269db516, type: 3}
+  m_Script: {fileID: 11500000, guid: 85eca1fe97b27e741af25b28c30e926f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 30

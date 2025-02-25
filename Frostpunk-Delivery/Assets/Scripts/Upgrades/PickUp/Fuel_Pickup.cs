@@ -2,26 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaxFuel_Upgrade : MonoBehaviour, IUpgrade
+public class Fuel_Pickup : MonoBehaviour
 {
     private UpgradeManager upgradeManager;
+    [SerializeField] float rotationSpeed = 30f;
 
     void Awake()
     {
         upgradeManager = FindObjectOfType<UpgradeManager>();
-    }
-
-    public void Upgrade()
-    {
-        upgradeManager.FuelCapacity_Upgrade();
+        transform.eulerAngles = new Vector3(0, 0, 60f);
     }
 
     void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Player")
         {
-            Upgrade();
+            upgradeManager.FuelPickup();
             Destroy(gameObject);
         }
+    }
+
+    void Update()
+    {
+        transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.World); // Rotate powerup (to make it draw attention)
     }
 }

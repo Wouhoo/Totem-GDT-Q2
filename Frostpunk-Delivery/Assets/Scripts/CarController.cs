@@ -46,9 +46,9 @@ public class CarController : MonoBehaviour
     [SerializeField] float roadFriction = 1.0f;
     [SerializeField] float dirtFriction = 0.8f;
     [SerializeField] float offroadFriction = 0.6f;
-    [Tooltip("Base friction coefficient will be multiplied by this value if on ice")] [SerializeField] float iceModifier = 0.3f;
+    [Tooltip("Base friction coefficient will be multiplied by this value if on ice")][SerializeField] float iceModifier = 0.3f;
     private Vector3 checkOffset = new Vector3(0, -2.0f, 0); // Offset & radius of the sphere centered on transform.position that checks if the player is on road/ice
-    private float checkRadius = 1.0f; 
+    private float checkRadius = 1.0f;
 
     [Header("Other")]
     public float landFrictionCoef = 1f;
@@ -57,7 +57,7 @@ public class CarController : MonoBehaviour
     private PlayerFuel playerFuel;
     WheelController[] wheels;
     private Rigidbody rigidBody;
-    
+
 
     private void Start()
     {
@@ -79,6 +79,10 @@ public class CarController : MonoBehaviour
         ResetFriction();
     }
 
+    public void Set_MaxSpeed(float amount)
+    {
+        maxSpeed = amount;
+    }
 
 
     void FixedUpdate()
@@ -96,8 +100,8 @@ public class CarController : MonoBehaviour
         {
             hInput = 0f;
             vInput = 0f;
-        } 
-        else 
+        }
+        else
         {
             hInput = Input.GetAxis("Horizontal");
             vInput = Input.GetAxis("Vertical");
@@ -165,7 +169,7 @@ public class CarController : MonoBehaviour
             //Debug.Log("ON ROAD");
         }
         else if (Physics.CheckSphere(transform.position + checkOffset, checkRadius, dirtRoadLayer, QueryTriggerInteraction.Collide))
-        {  
+        {
             friction = dirtFriction;
             //Debug.Log("ON DIRT");
         }

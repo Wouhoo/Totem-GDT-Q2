@@ -49,14 +49,24 @@ public class CarHealth : MonoBehaviour
         _carHealth = Mathf.Clamp(amount, 0f, _maxCarHealth);
         playerState.CarBroke(_carHealth < 0.1f);
         // Show smoke when health gets below threshold, size increases the lower health gets
-        if(_carHealth < smokeThreshold)
+        if (_carHealth < smokeThreshold)
         {
             smokeParticles.Play();
-            smokeMain.startSizeMultiplier = 1 + smokeMultiplier * (smokeThreshold - _carHealth)/smokeThreshold;
+            smokeMain.startSizeMultiplier = 1 + smokeMultiplier * (smokeThreshold - _carHealth) / smokeThreshold;
         }
         else
         {
             smokeParticles.Stop();
         }
+    }
+
+    public void Add_Health(float amount)
+    {
+        Set_Health(_carHealth + amount);
+    }
+
+    public void Set_MaxHealth(float amount)
+    {
+        _maxCarHealth = amount;
     }
 }
