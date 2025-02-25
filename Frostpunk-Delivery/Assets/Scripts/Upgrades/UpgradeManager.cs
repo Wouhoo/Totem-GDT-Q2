@@ -39,6 +39,7 @@ public class UpgradeManager : MonoBehaviour
     public void CloseUpgradeMenu()
     {
         upgradeMenu.SetActive(false);
+        _carHealth.Set_Health(_carHealth._maxCarHealth); // full heal
         Time.timeScale = 1; // Resume simulation at normal speed
     }
 
@@ -189,20 +190,5 @@ public class UpgradeManager : MonoBehaviour
     {
         int health = Random.Range(fuelRandRange.x, fuelRandRange.y);
         _carHealth.Add_Health(health);
-    }
-
-
-    [Header("Full Heal")]
-    // full heal for in shop
-    [SerializeField] int fullHealCost;
-    public void PayForFullHeal()
-    {
-        if (_gameManager.playerMoney >= fullHealCost)  // Check if player has enough money
-        {
-            _gameManager.UpdateScore(-fullHealCost);  // Pay money
-            _carHealth.Set_Health(_carHealth._maxCarHealth);
-        }
-        else
-            Debug.Log("Not enough money!");
     }
 }
