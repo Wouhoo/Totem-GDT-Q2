@@ -5,9 +5,7 @@ using UnityEngine;
 public class IceManager : MonoBehaviour
 {
     // Script for spawning & managing ice areas
-    public float iceFrictionCoef = 0.3f; // land friction is 0.8
     public CarController carController;
-    private float iceAreaCounter = 0f;
 
     [SerializeField] int areasToSpawn = 40;    // Amount of areas to spawn randomly across the map
     [SerializeField] GameObject iceAreaPrefab; // Ice area prefab (should have correct initial scale!)    
@@ -18,7 +16,7 @@ public class IceManager : MonoBehaviour
 
     void Start()
     {
-        spawnLayer = ~LayerMask.NameToLayer("IceSpawnArea"); // Yes, the ~ here serves a vital purpose. Do ask me (Wouter) about it if you're curious, it's too long to explain here.
+        spawnLayer = (1 << LayerMask.NameToLayer("Road")) | (1 << LayerMask.NameToLayer("DirtRoad")); // Allow spawning on regular or dirt road 
         SpawnIceAreas();
     }
 
@@ -37,25 +35,6 @@ public class IceManager : MonoBehaviour
             } 
             while (!Physics.CheckSphere(spawnPosition, 0.1f, spawnLayer, QueryTriggerInteraction.Collide)); // Reroll spawn position until it overlaps with a valid spawn area (road)
             Instantiate(iceAreaPrefab, spawnPosition, Quaternion.identity, transform); // Spawn object at spawnPosition as child of IceManager
-        }
-    }
-
-    public void InsideIceArea(bool isInside) // true if entered, false if exited
-    {
-        // this function keeps track of which ice areas we are in and changes the players friction
-
-        if (isInside)
-        {
-            if (iceAreaCounter == 0)
-                carController.SetFriction(iceFrictionCoef);
-            Debug.Log("Changed");
-            iceAreaCounter += 1;
-        }
-        else
-        {
-            iceAreaCounter -= 1;
-            if (iceAreaCounter == 0)
-                carController.ResetFriction();
         }
     }
 }

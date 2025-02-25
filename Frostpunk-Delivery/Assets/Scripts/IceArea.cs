@@ -6,6 +6,7 @@ using UnityEngine.Animations;
 public class IceArea : MonoBehaviour
 {
     // Script for handling ice areas.
+    // --- Now repurposed to handle any area with different friction; default friction is offroad friction
     // Tells the ice manager if you are in the ice area (so it reduces friction accordingly),
     // and also makes the area grow over time and shrink when hit by a flamethrower hitbox.
 
@@ -21,19 +22,6 @@ public class IceArea : MonoBehaviour
     {
         iceManager = GetComponentInParent<IceManager>();
         InvokeRepeating("IncreaseSize", startDelay, growthDelay); // Start ice growth process
-    }
-
-    void OnTriggerEnter(Collider collider)
-    {
-        //Debug.Log("triggered");
-        if (collider.tag == "Player")
-            iceManager.InsideIceArea(true);
-    }
-
-    void OnTriggerExit(Collider collider)
-    {
-        if (collider.tag == "Player")
-            iceManager.InsideIceArea(false);
     }
 
     void IncreaseSize()
