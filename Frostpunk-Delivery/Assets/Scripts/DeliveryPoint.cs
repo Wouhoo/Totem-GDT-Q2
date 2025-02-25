@@ -18,6 +18,8 @@ public class DeliveryPoint : MonoBehaviour
     TextMeshProUGUI deliveryText;
     Image deliveryTimer;
     Image deliveryTimerFill;
+    Color initialColor = Color.yellow; // Color the timer will have when full
+    Color finalColor = Color.red;      // Color the timer will transition to while emptying
     float remainingTime;
 
     Material pointMaterial;
@@ -55,10 +57,13 @@ public class DeliveryPoint : MonoBehaviour
         {
             // Count down timer for active quest
             remainingTime -= Time.deltaTime;
-            deliveryTimerFill.fillAmount = remainingTime / quest.timeLimit;
+            float remainingFraction = remainingTime / quest.timeLimit; 
+            // Change timer fill & color depending on remaining time
+            deliveryTimerFill.fillAmount = remainingFraction;
+            deliveryTimerFill.color = Color.Lerp(finalColor, initialColor, remainingFraction); // Reversed since fraction counts down from 1 to 0
+            // Fail quest if time gets <= 0
             if (remainingTime <= 0)
             {
-                // Fail quest if time gets <= 0
                 FailQuest();
             }
 
