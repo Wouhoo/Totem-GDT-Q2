@@ -28,6 +28,7 @@ public class UpgradeManager : MonoBehaviour
         flamethrowerUpgradeButtonText.text = string.Format("Unlock (${0})", flamethrowerCostAtLevel[0]); // Flamethrower's first upgrade unlocks it
         maxHealth_UpgradeButtonText.text = string.Format("Upgrade (${0})", maxHealth_CostAtLevel[0]);
         maxSpeed_UpgradeButtonText.text = string.Format("Upgrade (${0})", maxSpeed_CostAtLevel[0]);
+        traction_UpgradeButtonText.text = string.Format("Upgrade (${0})", traction_CostAtLevel[0]);
     }
 
     public void OpenUpgradeMenu()
@@ -108,7 +109,7 @@ public class UpgradeManager : MonoBehaviour
     [Header("Upgrade Max Health")]
 
     private int maxHealth_Level = 0;
-    private float[] maxHealth_AtLevel = new float[] { 100f, 110f, 120f, 130f, 140f };
+    private float[] maxHealth_AtLevel = new float[] { 110f, 120f, 130f, 140f, 150f }; // start = 100f
     private int[] maxHealth_CostAtLevel = new int[] { 15, 30, 45, 60, 75 };
     [SerializeField] Image maxHealth_UpgradeMeter;
     [SerializeField] TextMeshProUGUI maxHealth_UpgradeButtonText;
@@ -139,7 +140,7 @@ public class UpgradeManager : MonoBehaviour
     [Header("Upgrade Max Speed")]
 
     private int maxSpeed_Level = 0;
-    private float[] maxSpeed_AtLevel = new float[] { 35f, 37.5f, 40f, 42.5f, 45f };
+    private float[] maxSpeed_AtLevel = new float[] { 37.5f, 40f, 42.5f, 45f, 47.5f }; // start = 35f
     private int[] maxSpeed_CostAtLevel = new int[] { 10, 15, 20, 25, 30 };
     [SerializeField] Image maxSpeed_UpgradeMeter;
     [SerializeField] TextMeshProUGUI maxSpeed_UpgradeButtonText;
@@ -167,36 +168,36 @@ public class UpgradeManager : MonoBehaviour
             Debug.Log("Max level reached!");
     }
 
-    // [Header("Upgrade Traction")]
+    [Header("Upgrade Traction")]
 
-    // private int fuelCapacityLevel = 0;                                                  // Current fuel capacity upgrade level
-    // private float[] fuelCapacityAtLevel = new float[] { 80f, 120f, 170f, 230f, 300f };  // Fuel capacity at each upgrade level
-    // private int[] fuelcapacityCostAtLevel = new int[] { 10, 25, 45, 70, 100 };          // Cost of upgrading to the next level
-    // [SerializeField] Image fuelCapacityUpgradeMeter;
-    // [SerializeField] TextMeshProUGUI fuelCapacityUpgradeButtonText;
+    private int traction_Level = 0;                                                  // Current fuel capacity upgrade level
+    private float[] traction_AtLevel = new float[] { 0.12f, 0.24f, 0.36f, 0.48f, 0.60f };  // Fuel capacity at each upgrade level
+    private int[] traction_CostAtLevel = new int[] { 20, 30, 45, 65, 90 };          // Cost of upgrading to the next level
+    [SerializeField] Image traction_UpgradeMeter;
+    [SerializeField] TextMeshProUGUI traction_UpgradeButtonText;
 
-    // public void UpgradeFuelCapacity()
-    // {
-    //     if (fuelCapacityLevel < fuelCapacityAtLevel.Length)  // Check if max level has been reached
-    //     {
-    //         if (_gameManager.playerMoney >= fuelcapacityCostAtLevel[fuelCapacityLevel])  // Check if player has enough money
-    //         {
-    //             _gameManager.UpdateScore(-fuelcapacityCostAtLevel[fuelCapacityLevel]);  // Pay money
-    //             _playerFuel.SetCapacity(fuelCapacityAtLevel[fuelCapacityLevel]);  // Increase capacity
-    //             fuelCapacityLevel++;
-    //             fuelCapacityUpgradeMeter.fillAmount = (float)fuelCapacityLevel / (float)fuelCapacityAtLevel.Length;  // Fill upgrade meter in shop screen
-    //             // Update upgrade button text with next cost
-    //             if (fuelCapacityLevel < fuelcapacityCostAtLevel.Length)
-    //                 fuelCapacityUpgradeButtonText.text = string.Format("Upgrade (${0})", fuelcapacityCostAtLevel[fuelCapacityLevel]);
-    //             else
-    //                 fuelCapacityUpgradeButtonText.text = "MAX LEVEL REACHED";
-    //         }
-    //         else
-    //             Debug.Log("Not enough money!");
-    //     }
-    //     else
-    //         Debug.Log("Max level reached!");
-    // }
+    public void UpgradeTraction()
+    {
+        if (traction_Level < traction_AtLevel.Length)  // Check if max level has been reached
+        {
+            if (_gameManager.playerMoney >= traction_CostAtLevel[traction_Level])  // Check if player has enough money
+            {
+                _gameManager.UpdateScore(-traction_CostAtLevel[traction_Level]);  // Pay money
+                _carController.Set_TractionFactor(traction_AtLevel[traction_Level]);  // Increase
+                traction_Level++;
+                traction_UpgradeMeter.fillAmount = (float)traction_Level / (float)traction_AtLevel.Length;  // Fill upgrade meter in shop screen
+                // Update upgrade button text with next cost
+                if (traction_Level < traction_CostAtLevel.Length)
+                    traction_UpgradeButtonText.text = string.Format("Upgrade (${0})", traction_CostAtLevel[traction_Level]);
+                else
+                    traction_UpgradeButtonText.text = "MAX LEVEL REACHED";
+            }
+            else
+                Debug.Log("Not enough money!");
+        }
+        else
+            Debug.Log("Max level reached!");
+    }
 
 
     // Pickups
