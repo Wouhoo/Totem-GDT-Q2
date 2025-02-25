@@ -155,27 +155,31 @@ public class CarController : MonoBehaviour
         }
     }
 
+
+    private int _priorFirctionState = 01; // used for optimization (_X : 1=road, 2=dirt, 3=offroad) (X_ : 0=normal, 1=ice)
+    private int _firctionState = 01; // used for optimization (_X : 1=road, 2=dirt, 3=offroad) (X_ : 0=normal, 1=ice)
+    private float friction = 1.0f; // save time not initiating
     private void CheckFriction()
     {
-        // Set car friction based on material that you're driving on
-        float friction = 1.0f;
-
         // Find the "best quality" road that the car is on
         // Note: could maybe be optimized by only getting a list of overlapping colliders once and checking if any of them are tagged road or dirt road.
-        // However, this was easier to implement :)
+
         if (Physics.CheckSphere(transform.position + checkOffset, checkRadius, roadLayer, QueryTriggerInteraction.Collide))
         {
             friction = roadFriction;
+            _firctionState = 1;
             //Debug.Log("ON ROAD");
         }
         else if (Physics.CheckSphere(transform.position + checkOffset, checkRadius, dirtRoadLayer, QueryTriggerInteraction.Collide))
         {
             friction = dirtFriction;
+            _firctionState = 2;
             //Debug.Log("ON DIRT");
         }
         else
         {
             friction = offroadFriction;
+            _firctionState = 3;
             //Debug.Log("OFFROAD");
         }
 
@@ -183,10 +187,17 @@ public class CarController : MonoBehaviour
         if (Physics.CheckSphere(transform.position + checkOffset, checkRadius, iceLayer, QueryTriggerInteraction.Collide))
         {
             friction *= iceModifier;
+            _firctionState += 10;
             //Debug.Log("ON ICE");
         }
 
-        SetFriction(friction);
+        if (_firctionState == _priorFirctionState)
+            return;
+        else
+        {
+            _priorFirctionState = _firctionState;
+            SetFriction(friction);
+        }
     }
 
     public void SetFriction(float frictionCoef)
