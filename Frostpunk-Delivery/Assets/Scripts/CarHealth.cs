@@ -14,7 +14,8 @@ public class CarHealth : MonoBehaviour
 
     private CameraController cameraController;
     [SerializeField] float accToShakeFactor = 0.01f;
-
+    private GameManager gameManager;
+    
     [Header("Smoke effects")]
     private ParticleSystem smokeParticles;
     private ParticleSystem.MainModule smokeMain;
@@ -22,9 +23,15 @@ public class CarHealth : MonoBehaviour
     [SerializeField] float smokeMultiplier = 3.0f; // Smoke gets more intense as you get more damaged, up to this multiplier at 0 health
     // Smoke size formula: 0 if health > smokeThreshold, else 1 + (smokeThreshold - health)/smokeThreshold * smokeMultiplier
 
+    [Header("Collision Sound")]
+    [SerializeField] private float collisionSoundCooldown = 0.1f; // Adjust this value to control minimum time between sounds
+    private float lastCollisionSoundTime = 0f;
+
+
     // Start is called before the first frame update
     void Awake()
     {
+        gameManager = FindObjectOfType<GameManager>();
         playerState = GetComponent<PlayerState>();
         cameraController = FindObjectOfType<CameraController>();
         smokeParticles = transform.Find("Smoke particles").GetComponent<ParticleSystem>();
@@ -41,6 +48,13 @@ public class CarHealth : MonoBehaviour
             Debug.Log(acceleration);
             Set_Health(_carHealth - acceleration * accToDamageFactor);
             cameraController.StartShaking(acceleration * accToShakeFactor);
+            
+            // To prevent our ears from bleeding
+            if (Time.time - lastCollisionSoundTime >= collisionSoundCooldown)
+            {
+                gameManager.PlayCollisionSound();
+                lastCollisionSoundTime = Time.time;
+            }
         }
     }
 

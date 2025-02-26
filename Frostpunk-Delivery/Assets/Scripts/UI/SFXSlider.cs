@@ -19,5 +19,7 @@ public class SFXSlider : MonoBehaviour
     {
         audioSource.volume = volume;              // Change the assigned audio source's volume
         MainManager.instance.sfxVolume = volume;  // Update the value in the main manager as well
+        SFXPlayer sfxPlayer = FindObjectOfType<SFXPlayer>();
+        sfxPlayer.UpdateBlizzardVolume();
     }
 }

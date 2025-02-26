@@ -18,7 +18,13 @@ public class MenuManager : MonoBehaviour
 
     public void StartGame()
     {
+        StartCoroutine(StartGameWithDelay());
+    }
+
+    private IEnumerator StartGameWithDelay()
+    {
         sfxPlayer.ClickButtonSound();
+        yield return new WaitForSeconds(sfxPlayer.GetButtonClickSoundLength());
         SceneManager.LoadScene(1); // Make sure the level has index 1 in the build settings !!!
     }
 

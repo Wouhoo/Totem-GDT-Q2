@@ -13,8 +13,6 @@ public class DeliveryPoint : MonoBehaviour
 
     [SerializeField] GameObject iceArea;
 
-    GameManager gameManager;
-
     TextMeshProUGUI deliveryText;
     Image deliveryTimer;
     Image deliveryTimerFill;
@@ -35,6 +33,11 @@ public class DeliveryPoint : MonoBehaviour
     public float _beamColor;
     Transform _player;
     [SerializeField] Transform _beam;
+
+    [Header("Alarm Reminder")]
+    private bool alarmPlayed = false;
+    [SerializeField] private float alarmThreshold = 0.3f; // 30% of time remaining
+    private GameManager gameManager;
 
     private void Awake()
     {
@@ -58,6 +61,12 @@ public class DeliveryPoint : MonoBehaviour
             // Count down timer for active quest
             remainingTime -= Time.deltaTime;
             float remainingFraction = remainingTime / quest.timeLimit; 
+            // Play alarm sound
+            if (!alarmPlayed && remainingFraction <= alarmThreshold)
+            {
+                gameManager.PlayAlarmSound();
+                alarmPlayed = true;
+            }
             // Change timer fill & color depending on remaining time
             deliveryTimerFill.fillAmount = remainingFraction;
             deliveryTimerFill.color = Color.Lerp(finalColor, initialColor, remainingFraction); // Reversed since fraction counts down from 1 to 0
@@ -79,6 +88,7 @@ public class DeliveryPoint : MonoBehaviour
         quest = newQuest;
         questActive = true;
         remainingTime = quest.timeLimit;
+        alarmPlayed = false;
         UISetActive(true);
         deliveryText.text = string.Format("{0}", quest.fuelToDeliver); // Displays only fuel to deliver for now; might display more/other info later.
 
