@@ -15,11 +15,19 @@ public class WheelController : MonoBehaviour
 
     Vector3 position;
     Quaternion rotation;
+    Quaternion freeRotation;
+    Quaternion fixedRotation;
 
     // Start is called before the first frame update
     private void Awake()
     {
         WheelCollider = GetComponent<WheelCollider>();
+    }
+
+    private void Start()
+    {
+        Vector3 modelEuler = wheelModel.transform.rotation.eulerAngles;
+        fixedRotation = Quaternion.Euler(0, 0, modelEuler.z);
     }
 
     // Update is called once per frame
@@ -29,6 +37,7 @@ public class WheelController : MonoBehaviour
         // use them to set the wheel model's position and rotation
         WheelCollider.GetWorldPose(out position, out rotation);
         wheelModel.transform.position = position;
-        wheelModel.transform.rotation = rotation;
+        freeRotation = Quaternion.Euler(rotation.x, rotation.y, 0);
+        wheelModel.transform.rotation = rotation * fixedRotation;
     }
 }
