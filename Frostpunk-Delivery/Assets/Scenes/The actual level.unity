@@ -20460,6 +20460,30 @@ PrefabInstance:
       propertyPath: notEnoughFuelText
       value: 
       objectReference: {fileID: 1628861106}
+    - target: {fileID: 3940498652556074826, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940498652556074826, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940498652556074826, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4692616950592114255, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4692616950592114255, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4692616950592114255, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
     - target: {fileID: 4755117330872800869, guid: 1ed89ad21ba88724a9effab573021825, type: 3}
       propertyPath: m_LocalPosition.x
       value: 99.6
