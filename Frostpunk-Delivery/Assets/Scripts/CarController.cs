@@ -58,7 +58,19 @@ public class CarController : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioSource iceScrapingAudioSource;
+    [SerializeField] private AudioSource engineIdleSource;
+    [SerializeField] private AudioSource engineRunningSource;
     [SerializeField] private float minSpeedForIceSound = 2f;
+    [SerializeField] private float enginePitchMultiplier = 1f;
+    [SerializeField] private float minEnginePitch = 0.5f;
+    [SerializeField] private float maxEnginePitch = 2f;
+    [SerializeField] private float enginePitchChangeSpeed = 5f;
+    [SerializeField] private float maxEngineVolume = 0.7f;
+    [SerializeField] private float engineVolumeSmoothSpeed = 2f;
+    private float targetEnginePitch = 0f;
+    private bool isEngineInitialized = false;
+    private float currentIdleVolume = 0f;
+    private float currentRunningVolume = 0f;
 
     private PlayerFuel playerFuel;
     WheelController[] wheels;
@@ -89,6 +101,23 @@ public class CarController : MonoBehaviour
             iceScrapingAudioSource.playOnAwake = false;
         }
 
+        if (engineIdleSource != null)
+        {
+            engineIdleSource.loop = true;
+            engineIdleSource.playOnAwake = false;
+            engineIdleSource.volume = 0f;
+            engineIdleSource.time = 0f;
+        }
+
+        if (engineRunningSource != null)
+        {
+            engineRunningSource.loop = true;
+            engineRunningSource.playOnAwake = false;
+            engineRunningSource.volume = 0f;
+            engineRunningSource.volume = 0f;
+        }
+
+        StartCoroutine(InitializeEngineSounds());
         ResetFriction();
     }
 
@@ -166,6 +195,39 @@ public class CarController : MonoBehaviour
                 wheel.WheelCollider.motorTorque = 0;
             }
         }
+
+        UpdateEngineSound();
+    }
+
+    private IEnumerator InitializeEngineSounds()
+    {
+        yield return new WaitForSeconds(0.5f); // Wait for scene to fully load (because it plays in the help screen otherwise)
+        if (engineIdleSource != null) engineIdleSource.Play();
+        if (engineRunningSource != null) engineRunningSource.Play();
+        isEngineInitialized = true;
+    }
+    private void UpdateEngineSound()
+    {
+        if (engineRunningSource == null || engineIdleSource == null || !isEngineInitialized) return;
+
+        float speedRatio = rigidBody.velocity.magnitude / maxSpeed;
+
+        // Update pitch
+        targetEnginePitch = Mathf.Lerp(minEnginePitch, maxEnginePitch, speedRatio) * enginePitchMultiplier;
+        float currentPitch = engineRunningSource.pitch;
+        engineRunningSource.pitch = Mathf.Lerp(currentPitch, targetEnginePitch, Time.deltaTime * enginePitchChangeSpeed);
+
+        // Calculate target volumes
+        float targetIdleVolume = Mathf.Lerp(maxEngineVolume, 0f, speedRatio);
+        float targetRunningVolume = Mathf.Lerp(0f, maxEngineVolume, speedRatio);
+
+        // Smoothly interpolate volumes
+        currentIdleVolume = Mathf.Lerp(currentIdleVolume, targetIdleVolume, Time.deltaTime * engineVolumeSmoothSpeed);
+        currentRunningVolume = Mathf.Lerp(currentRunningVolume, targetRunningVolume, Time.deltaTime * engineVolumeSmoothSpeed);
+
+        // Apply volumes
+        engineIdleSource.volume = currentIdleVolume;
+        engineRunningSource.volume = currentRunningVolume;
     }
 
 

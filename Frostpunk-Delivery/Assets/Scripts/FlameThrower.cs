@@ -9,6 +9,7 @@ public class FlameThrower : MonoBehaviour
     [SerializeField] GameObject flamethrowerCone;
     [SerializeField] ParticleSystem flamethrowerParticles;
     [SerializeField] TextMeshProUGUI flamethrowerHelpText;
+    [SerializeField] AudioSource flamethrowerAudioSource;
     private KeyCode flamethrowerButton = KeyCode.Space;
 
     private PlayerFuel playerFuel;
@@ -22,6 +23,8 @@ public class FlameThrower : MonoBehaviour
     {
         playerFuel = FindObjectOfType<PlayerFuel>();
         flamethrowerCone.SetActive(false);
+        flamethrowerAudioSource.loop = true;
+        flamethrowerAudioSource.playOnAwake = false;
     }
 
     // Update is called once per frame
@@ -33,12 +36,14 @@ public class FlameThrower : MonoBehaviour
             flamethrowerActive = true;
             flamethrowerCone.SetActive(true);
             flamethrowerParticles.Play();
+            flamethrowerAudioSource.Play();
         }
         if (Input.GetKeyUp(flamethrowerButton) || playerFuel.GetFuelLevel() < 0.01f) // Also deactivate if no fuel left
         {
             flamethrowerActive = false;
             flamethrowerCone.SetActive(false);
             flamethrowerParticles.Stop();
+            flamethrowerAudioSource.Stop();
         }
         // Consume fuel for every frame that the flamethrower is active
         if (flamethrowerActive)

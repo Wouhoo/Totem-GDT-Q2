@@ -73,11 +73,11 @@ public class UpgradeManager : MonoBehaviour
             }
             else
                 Debug.Log("Not enough money!");
-                _gameManager.PlayUnsuccessfulDeliverySound();
+                _gameManager.PlayUnsuccessfulUpgradeSound();
         }
         else
             Debug.Log("Max level reached!");
-            _gameManager.PlayUnsuccessfulDeliverySound();
+            _gameManager.PlayUnsuccessfulUpgradeSound();
     }
 
     [Header("Upgrade Flamethrower")]
@@ -107,11 +107,11 @@ public class UpgradeManager : MonoBehaviour
             }
             else
                 Debug.Log("Not enough money!");
-                _gameManager.PlayUnsuccessfulDeliverySound();
+                _gameManager.PlayUnsuccessfulUpgradeSound();
         }
         else
             Debug.Log("Max level reached!");
-            _gameManager.PlayUnsuccessfulDeliverySound();
+            _gameManager.PlayUnsuccessfulUpgradeSound();
     }
 
     [Header("Upgrade Max Health")]
@@ -141,11 +141,11 @@ public class UpgradeManager : MonoBehaviour
             }
             else
                 Debug.Log("Not enough money!");
-                _gameManager.PlayUnsuccessfulDeliverySound();
+                _gameManager.PlayUnsuccessfulUpgradeSound();
         }
         else
             Debug.Log("Max level reached!");
-            _gameManager.PlayUnsuccessfulDeliverySound();
+            _gameManager.PlayUnsuccessfulUpgradeSound();
     }
 
     [Header("Upgrade Max Speed")]
@@ -175,11 +175,11 @@ public class UpgradeManager : MonoBehaviour
             }
             else
                 Debug.Log("Not enough money!");
-                _gameManager.PlayUnsuccessfulDeliverySound();
+                _gameManager.PlayUnsuccessfulUpgradeSound();
         }
         else
             Debug.Log("Max level reached!");
-            _gameManager.PlayUnsuccessfulDeliverySound();
+            _gameManager.PlayUnsuccessfulUpgradeSound();
     }
 
     [Header("Upgrade Traction")]
@@ -209,11 +209,11 @@ public class UpgradeManager : MonoBehaviour
             }
             else
                 Debug.Log("Not enough money!");
-                _gameManager.PlayUnsuccessfulDeliverySound();
+                _gameManager.PlayUnsuccessfulUpgradeSound();
         }
         else
             Debug.Log("Max level reached!");
-            _gameManager.PlayUnsuccessfulDeliverySound();
+            _gameManager.PlayUnsuccessfulUpgradeSound();
     }
 
 

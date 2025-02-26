@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip upgradeMenuOpenClip;
     [SerializeField] AudioClip upgradeMenuCloseClip;
     [SerializeField] AudioClip upgradeButtonClickClip;
+    [SerializeField] AudioClip unsuccessfulUpgradeClip;
 
     private bool isGameOver = false;
 
@@ -110,5 +111,10 @@ public class GameManager : MonoBehaviour
     public void PlayUpgradeButtonClickSound()
     {
         miscAudioSource.PlayOneShot(upgradeButtonClickClip);
+    }
+
+    public void PlayUnsuccessfulUpgradeSound()
+    {
+        miscAudioSource.PlayOneShot(unsuccessfulUpgradeClip);
     }
 }
