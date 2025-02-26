@@ -717,6 +717,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicVolume: 0.5
   sfxVolume: 0.5
+  blizzardVolumeMenu: 0.1
+  blizzardVolumeLevel: 0.5
+  blizzardSound: {fileID: 0}
 --- !u!4 &1162784251
 Transform:
   m_ObjectHideFlags: 0
@@ -1019,11 +1022,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 644a1971efda977489d845fc1eceda99, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2641399a80fe2484388e0ea3fcc6cf41, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1117,6 +1120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8c30b6be4c659441bc5d7159032e587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLevelTheme: 0
+  loopPoint: 15
 --- !u!1 &1601053847
 GameObject:
   m_ObjectHideFlags: 0
@@ -2046,7 +2051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80c50193291e8bb44bfb7d940e707ad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonClickSound: {fileID: 8300000, guid: 7eb628f182710354a8262d58baafa91c, type: 3}
+  buttonClickSound: {fileID: 8300000, guid: 457678e2bc405674e9fcd7b73527ad2e, type: 3}
 --- !u!1 &2056877457
 GameObject:
   m_ObjectHideFlags: 0
