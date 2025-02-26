@@ -4946,7 +4946,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5743110168726473942, guid: ac7e98c1f1fd8904197db100a186f500, type: 3}
+  - {fileID: 2100000, guid: a29f839a4975fcb4d8ac5fbed1839384, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -26144,7 +26144,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 4314
+  m_VersionIndex: 4320
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -41256,7 +41256,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 4320
+  m_VersionIndex: 4326
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
