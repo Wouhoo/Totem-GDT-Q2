@@ -89,7 +89,7 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
-        speedText.text = string.Format("Speed: {0:#.00}", rigidBody.velocity.magnitude);
+        speedText.text = string.Format("Speed: {0:#.0}", rigidBody.velocity.magnitude);
 
         CheckFriction(); // Set car friction based on material you're driving on
 

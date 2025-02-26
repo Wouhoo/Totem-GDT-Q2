@@ -3,7 +3,7 @@
 Trees: Free tree pack by Ada_King on the Unity Asset Store - https://assetstore.unity.com/packages/3d/vegetation/trees/free-trees-103208
 Grass: Stylized nature texture pack by Yoge on the Unity Asset Store - https://assetstore.unity.com/packages/2d/textures-materials/stylized-nature-textures-228680
 Fuel icon: Freepik via Flaticon - https://www.flaticon.com/free-icons/fuel
-Font: Wonderia by Keithzo - https://www.1001fonts.com/wonderia-font.html
+Font: Glorious Christmas by GraphicSauce - https://www.1001fonts.com/glorious-christmas-font.html
 
 Our thanks also go to all the lovely folks who make YouTube tutorials on the most obscure Unity features you can imagine;
 without them, this project wouldn't have been possible.
