@@ -10,7 +10,7 @@ public class Health_Pickup : MonoBehaviour
     void Awake()
     {
         upgradeManager = FindObjectOfType<UpgradeManager>();
-        transform.eulerAngles = new Vector3(0, 0, 60f);
+        transform.eulerAngles = new Vector3(0, 0, 0f);
     }
 
     void OnTriggerEnter(Collider collider)
